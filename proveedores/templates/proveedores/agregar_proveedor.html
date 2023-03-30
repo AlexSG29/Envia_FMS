@@ -1,0 +1,20 @@
+{% extends 'dashboard/layout.html' %}
+
+{% block head %}{% endblock  %}
+
+{% block title %} Agregar Proveedor {% endblock  %}
+
+
+{% block content %}
+
+<h1>Agregar Proveedor</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Guardar</button>
+    </form>
+    
+{% endblock  %}
+
+
+
