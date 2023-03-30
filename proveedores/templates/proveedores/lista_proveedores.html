@@ -1,0 +1,15 @@
+{% extends 'dashboard/layout.html' %}
+
+
+{% block title %}Lista de proveedoresss{% endblock  %}
+
+{% block content %}
+
+<h1>Lista de Proveedores</h1>
+    <ul>
+        {% for proveedor in proveedores %}
+        <li>{{ proveedor.nombre }} - {{ proveedor.tipo }}</li>
+        {% endfor %}
+    </ul>
+
+{% endblock  %}
