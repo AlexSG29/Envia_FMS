@@ -11,7 +11,7 @@ class Mantenimiento(models.Model):
     ]
     placa = models.ForeignKey(Vehiculo, on_delete=models.CASCADE)
     tipo = models.CharField(max_length=1, choices=TIPO_CHOICES)
-    proveedor = models.ForeignKey(Proveedor, on_delete=models.SET_NULL, blank=True, null=True)
+    proveedores = models.ManyToManyField(Proveedor, blank=True)
     ot = models.CharField(max_length=20, blank=True)
     os = models.BooleanField(default=False)
     fecha = models.DateField(auto_now_add=True)
