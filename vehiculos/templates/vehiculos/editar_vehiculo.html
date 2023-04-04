@@ -1,0 +1,14 @@
+<!-- templates/vehiculos/editar_vehiculo.html -->
+{% extends 'dashboard/layout.html' %}
+
+{% block content %}
+<h1>Editar vehículo</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Guardar cambios">
+</form>
+
+<a href="{% url 'lista_vehiculos' %}">Volver a la lista de vehículos</a>
+{% endblock %}

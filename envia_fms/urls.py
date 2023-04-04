@@ -6,4 +6,5 @@ urlpatterns = [
     path('', include('dashboard.urls')), #Para el dashboard
     path('proveedores/', include('proveedores.urls')), #Para los proveedores
     path('repuestos/', include('repuestos.urls')), #Para los repuestos.
+    path('vehiculos/', include('vehiculos.urls')), #Para las placas
 ]

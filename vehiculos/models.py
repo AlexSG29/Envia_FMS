@@ -15,3 +15,5 @@ class Vehiculo(models.Model):
 
     def __str__(self):
         return self.placa
+    class Meta:
+        ordering = ['placa']  # Ordenar por placa de forma ascendente
