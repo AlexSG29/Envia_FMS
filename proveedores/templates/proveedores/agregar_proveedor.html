@@ -1,9 +1,9 @@
+<!-- templates/agregar_proveedor.html -->
 {% extends 'dashboard/layout.html' %}
 
 {% block head %}{% endblock  %}
 
 {% block title %} Agregar Proveedor {% endblock  %}
-
 
 {% block content %}
 
@@ -14,7 +14,5 @@
         <button type="submit">Guardar</button>
     </form>
     
+    <a href="{% url 'lista_proveedores' %}">Volver a la lista de proveedores</a>
 {% endblock  %}
-
-
-

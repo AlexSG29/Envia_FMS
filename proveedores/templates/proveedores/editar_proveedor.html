@@ -1,3 +1,4 @@
+<!-- templates/editar_proveedor.html -->
 {% extends 'dashboard/layout.html' %}
 
 {% block title %}Editar proveedor{% endblock %}
@@ -9,4 +10,6 @@
         {{ form.as_p }}
         <input type="submit" value="Guardar cambios">
     </form>
+    
+    <a href="{% url 'lista_proveedores' %}">Volver a la lista de proveedores</a>
 {% endblock %}
