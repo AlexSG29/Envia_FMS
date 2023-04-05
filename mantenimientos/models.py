@@ -2,7 +2,6 @@ from django.db import models
 from repuestos.models import Repuesto
 from proveedores.models import Proveedor
 from vehiculos.models import Vehiculo
-from django.utils import timezone
 
 
 class Mantenimiento(models.Model):
@@ -15,7 +14,7 @@ class Mantenimiento(models.Model):
     proveedores = models.ManyToManyField(Proveedor, blank=True)
     ot = models.CharField(max_length=20, blank=True)
     os = models.BooleanField(default=False)
-    fecha = models.DateField(default=timezone.now)
+    fecha = models.DateField()
     fecha_preventivo = models.DateField(blank=True, null=True)
     descripcion = models.CharField(max_length=400, blank=True)
     repuestos = models.ManyToManyField(Repuesto, through='RepuestoMantenimiento', blank=True)

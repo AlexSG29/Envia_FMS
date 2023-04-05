@@ -1,0 +1,50 @@
+{% extends 'dashboard/layout.html' %}
+
+{% block head %}{% endblock %}
+
+{% block title %}
+  Lista de Mantenimientos
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <h1>Lista de Mantenimientos</h1>
+    <a href="{% url 'agregar_mantenimiento' %}">Agregar Mantenimiento</a>
+    {% if mantenimientos %}
+      <table>
+        <thead>
+          <tr>
+            <th>Placa</th>
+            <th>Tipo</th>
+            <th>OT</th>
+            <th>Fecha</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for mantenimiento in mantenimientos %}
+            <tr>
+              <td>{{ mantenimiento.placa }}</td>
+              <td>{{ mantenimiento.get_tipo_display }}</td>
+              <td>{{ mantenimiento.ot }}</td>
+              <td>{{ mantenimiento.fecha }}</td>
+              <td>{% if mantenimiento.estado %}Activo{% else %}Inactivo{% endif %}</td>
+              <td>
+                <a href="{% url 'editar_mantenimiento' mantenimiento.id %}">Editar</a>
+                <a href="#" onclick="if (confirm('¿Estás seguro que deseas eliminar el mantenimiento {{ mantenimiento }}?')) { document.getElementById('eliminar-mantenimiento-{{ mantenimiento.id }}').submit(); }">Eliminar</a>
+                <form id="eliminar-mantenimiento-{{ mantenimiento.id }}" action="{% url 'eliminar_mantenimiento' mantenimiento.id %}" method="post">
+                  {% csrf_token %}
+                  <input type="hidden" name="mantenimiento_id" value="{{ mantenimiento.id }}">
+                  <input type="hidden" name="action" value="delete">
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>No hay mantenimientos registrados.</p>
+    {% endif %}
+  </div>
+{% endblock %}

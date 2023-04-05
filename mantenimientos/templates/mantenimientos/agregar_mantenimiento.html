@@ -1,15 +1,20 @@
-<!-- templates/mantenimientos/agregar_mantenimiento.html -->
 {% extends 'dashboard/layout.html' %}
 
-{% block title %}Agregar mantenimiento{% endblock %}
+{% block head %}
+  {{ block.super }}
+{% endblock %}
+
+{% block title %}
+  <title>Agregar Mantenimiento</title>
+{% endblock %}
 
 {% block content %}
-    <h1>Agregar mantenimiento</h1>
+  <div class="container">
+    <h1>Agregar Mantenimiento</h1>
     <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Guardar">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Agregar</button>
     </form>
-
-    <a href="{% url 'lista_mantenimientos' %}">Volver a la lista de mantenimientos</a>
+  </div>
 {% endblock %}
