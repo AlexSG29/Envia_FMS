@@ -1,0 +1,41 @@
+<!-- templates/lista_repuestos.html -->
+{% extends 'dashboard/layout.html' %}
+
+{% block content %}
+    <h1>Lista de repuestos</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for repuesto in repuestos %}
+                <tr>
+                    <td>{{ repuesto.nombre }}</td>
+                    <td>
+                        <a href="{% url 'editar_repuesto' repuesto.id %}">Editar</a>
+                        <form method="post" action="{% url 'eliminar_repuesto' repuesto.id %}">
+                            {% csrf_token %}
+                            <input type="submit" value="Eliminar" onclick="return confirmarEliminacion();">
+                        </form>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="3">No hay repuestos registrados</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url 'agregar_repuesto' %}">Agregar repuesto</a>
+
+    <script>
+        function confirmarEliminacion() {
+            return confirm("¿Estás seguro de que deseas eliminar este repuesto?");
+        }
+    </script>
+{% endblock %}
