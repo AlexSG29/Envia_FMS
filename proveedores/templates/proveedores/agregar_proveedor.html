@@ -1,18 +1,39 @@
-<!-- templates/agregar_proveedor.html -->
 {% extends 'dashboard/layout.html' %}
 
-{% block head %}{% endblock  %}
-
-{% block title %} Agregar Proveedor {% endblock  %}
+{% block title %}Agregar Proveedor{% endblock  %}
 
 {% block content %}
+    <div class="container py-5">
+        <h1>Agregar Proveedor</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="{{ form.nombre.id_for_label }}" class="form-label">Nombre</label>
+                {{ form.nombre }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.celular.id_for_label }}" class="form-label">Celular</label>
+                {{ form.celular }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.correo.id_for_label }}" class="form-label">Correo electrónico</label>
+                {{ form.correo }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.tipo.id_for_label }}" class="form-label">Tipo</label>
+                {{ form.tipo }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.descripcion.id_for_label }}" class="form-label">Descripción</label>
+                {{ form.descripcion }}
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <a href="{% url 'lista_proveedores' %}" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}
 
-<h1>Agregar Proveedor</h1>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Guardar</button>
-    </form>
-    
-    <a href="{% url 'lista_proveedores' %}">Volver a la lista de proveedores</a>
-{% endblock  %}
+ <!-- templates/agregar_proveedor.html -->
+
