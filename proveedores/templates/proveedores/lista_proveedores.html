@@ -3,19 +3,40 @@
 {% block title %}Lista de proveedores{% endblock  %}
 
 {% block content %}
-    <h1>Lista de Proveedores</h1>
-    <a href="{% url 'agregar_proveedor' %}">Agregar proveedor</a>
-    <ul>
-        {% for proveedor in proveedores %}
-        <li>
-            {{ proveedor.nombre }}
-            <a href="{% url 'editar_proveedor' proveedor.id %}">Editar</a>
-            <form method="POST" action="{% url 'borrar_proveedor' proveedor.id %}">
-                {% csrf_token %}
-                <input type="hidden" name="proveedor_id" value="{{ proveedor.id }}">
-                <input type="submit" value="Eliminar" onclick="return confirm('¿Estás seguro de que deseas eliminar este proveedor?')">
-            </form>
-        </li>
-        {% endfor %}
-    </ul>
+    <div class="container py-5">
+        <h1>Lista de Proveedores</h1>
+        <a href="{% url 'agregar_proveedor' %}" class="btn btn-primary mb-3">Agregar proveedor</a>
+        <div class="row">
+            {% for proveedor in proveedores %}
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body align-items-center">
+                        <h5 class="card-title">{{ proveedor.nombre }}</h5>
+                        <p class="card-text">Celular: {{ proveedor.celular }}</p>
+                        <p class="card-text">Correo: {{ proveedor.correo }}</p>
+                        <p class="card-text">Tipo: {{ proveedor.get_tipo_display }}</p>
+                        <div class="d-flex align-items-center">
+                            <a href="{% url 'editar_proveedor' proveedor.id %}" class="btn btn-link me-2">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+                            <form method="POST" action="{% url 'borrar_proveedor' proveedor.id %}" 
+                            onsubmit="return confirm('¿Estás seguro de que deseas eliminar este proveedor?')">
+                                {% csrf_token %}
+                                <input type="hidden" name="proveedor_id" value="{{ proveedor.id }}">
+                                <button type="submit" class="btn btn-link">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock  %}
+
+
+
+
+
