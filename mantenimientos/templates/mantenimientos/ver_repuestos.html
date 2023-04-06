@@ -1,0 +1,33 @@
+{% extends 'dashboard/layout.html' %}
+
+{% block head %}
+  {{ block.super }}
+{% endblock %}
+
+{% block title %}
+  <title>Repuestos del Mantenimiento</title>
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <h1>Repuestos del Mantenimiento {{ mantenimiento }}</h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Repuesto</th>
+          <th>Cantidad</th>
+          <th>Descripción</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for repuesto_mantenimiento in repuestos %}
+        <tr>
+          <td>{{ repuesto_mantenimiento.repuesto }}</td>
+          <td>{{ repuesto_mantenimiento.cantidad }}</td>
+          <td>{{ repuesto_mantenimiento.descripcion }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

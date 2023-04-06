@@ -19,6 +19,7 @@
             <th>OT</th>
             <th>Fecha</th>
             <th>Estado</th>
+            <th>Repuestos</th>
             <th>Acciones</th>
           </tr>
         </thead>
@@ -30,6 +31,7 @@
               <td>{{ mantenimiento.ot }}</td>
               <td>{{ mantenimiento.fecha }}</td>
               <td>{% if mantenimiento.estado %}Activo{% else %}Inactivo{% endif %}</td>
+              <td><a href="{% url 'ver_repuestos' mantenimiento.id %}">Ver</a></td>
               <td>
                 <a href="{% url 'editar_mantenimiento' mantenimiento.id %}">Editar</a>
                 <a href="#" onclick="if (confirm('¿Estás seguro que deseas eliminar el mantenimiento {{ mantenimiento }}?')) { document.getElementById('eliminar-mantenimiento-{{ mantenimiento.id }}').submit(); }">Eliminar</a>

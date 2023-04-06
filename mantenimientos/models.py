@@ -29,6 +29,7 @@ class RepuestoMantenimiento(models.Model):
     repuesto = models.ForeignKey(Repuesto, on_delete=models.CASCADE)
     cantidad = models.PositiveIntegerField(default=1)
     descripcion = models.CharField(max_length=200, blank=True)
+    eliminado = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.repuesto} x {self.cantidad} - {self.mantenimiento}"

@@ -14,7 +14,32 @@
     <form method="post">
       {% csrf_token %}
       {{ form.as_p }}
+      <button type="submit" class="btn btn-primary">Agregar</button>
+    </form>
+  </div>
+{% endblock %}
+
+
+
+
+{% comment %} {% extends 'dashboard/layout.html' %}
+
+{% block head %}
+  {{ block.super }}
+{% endblock %}
+
+{% block title %}
+  <title>Agregar Mantenimiento</title>
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <h1>Agregar Mantenimiento</h1>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
       <button type="submit">Agregar</button>
     </form>
   </div>
 {% endblock %}
+ {% endcomment %}
