@@ -1,0 +1,25 @@
+{% extends 'dashboard/layout.html' %}
+
+{% block head %}
+  {{ block.super }}
+{% endblock %}
+
+{% block title %}
+  <title>Agregar Repuesto al Mantenimiento {{ mantenimiento }}</title>
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <h1>Agregar Repuesto al Mantenimiento {{ mantenimiento }}</h1>
+    {% if added %}
+      <div class="alert alert-success" role="alert">
+        El repuesto se ha agregado correctamente.
+      </div>
+    {% endif %}
+    <form method="post">
+      {% csrf_token %}
+      {{ repuesto_form.as_p }}
+      <button type="submit" class="btn btn-primary">Agregar otro repuesto</button>
+    </form>
+  </div>
+{% endblock %}
