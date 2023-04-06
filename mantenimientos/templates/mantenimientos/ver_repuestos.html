@@ -29,6 +29,7 @@
         {% endfor %}
       </tbody>
     </table>
-    <a href="{% url 'agregar_repuestos' mantenimiento.id %}" class="btn btn-primary">Agregar Repuestos</a>
+    <a href="{% url 'agregar_repuestos' mantenimiento_id=mantenimiento.id %}" 
+      class="btn btn-primary">Agregar Repuestos</a>
   </div>
 {% endblock %}

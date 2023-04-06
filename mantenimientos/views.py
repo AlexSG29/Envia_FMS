@@ -65,6 +65,9 @@ def ver_repuestos(request, mantenimiento_id):
 # Agregar repuestos a ese mantenimiento
 from django.contrib import messages
 
+
+from django.contrib import messages
+
 def agregar_repuestos(request, mantenimiento_id):
     mantenimiento = get_object_or_404(Mantenimiento, pk=mantenimiento_id)
 
@@ -72,19 +75,39 @@ def agregar_repuestos(request, mantenimiento_id):
         form = RepuestoMantenimientoForm(request.POST)
         if form.is_valid():
             repuesto_mantenimiento = form.save(commit=False)
-            repuesto_mantenimiento.mantenimiento = mantenimiento
-            repuesto_mantenimiento.save()
-            messages.success(request, 'El repuesto se ha agregado correctamente.')
-            form = RepuestoMantenimientoForm()
+            repuesto = repuesto_mantenimiento.repuesto
+            cantidad = repuesto_mantenimiento.cantidad
+            descripcion = repuesto_mantenimiento.descripcion
+
+            # Verificar si el repuesto ya está en la lista de repuestos asociados al mantenimiento
+            repuestos_asociados = mantenimiento.repuestos.all()
+            if repuestos_asociados.filter(mantenimientos__repuesto=repuesto).exists():
+                messages.error(request, f'El repuesto "{repuesto}" ya está asociado a este mantenimiento.')
+            else:
+                # Agregar el nuevo repuesto al mantenimiento
+                repuesto_mantenimiento.mantenimiento = mantenimiento
+                repuesto_mantenimiento.save()
+                messages.success(request, f'Se ha agregado el repuesto "{repuesto}" al mantenimiento "{mantenimiento}".')
+                return redirect('agregar_repuestos', mantenimiento_id=mantenimiento_id)
     else:
         form = RepuestoMantenimientoForm()
 
+    # Obtener los mensajes de la sesión
+    messages_list = list(messages.get_messages(request))
+
     context = {
         'mantenimiento': mantenimiento,
-        'repuesto_form': form,
-        'added': request.method == 'POST',
+        'form': form,
+        'messages_list': messages_list,
     }
-    return render(request, 'mantenimientos/agregar_repuesto_mtto.html', context)
+    return render(request, 'mantenimientos/agregar_repuestos.html', context)
+
+
+
+
+
+
+
 
 
 

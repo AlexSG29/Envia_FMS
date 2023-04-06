@@ -26,7 +26,7 @@ class Mantenimiento(models.Model):
 #Adjuntar repuestos a cada mantenimiento
 class RepuestoMantenimiento(models.Model):
     mantenimiento = models.ForeignKey(Mantenimiento, on_delete=models.CASCADE)
-    repuesto = models.ForeignKey(Repuesto, on_delete=models.CASCADE)
+    repuesto = models.ForeignKey(Repuesto, on_delete=models.CASCADE, related_name='mantenimientos')
     cantidad = models.PositiveIntegerField(default=1)
     descripcion = models.CharField(max_length=200, blank=True)
     eliminado = models.BooleanField(default=False)
