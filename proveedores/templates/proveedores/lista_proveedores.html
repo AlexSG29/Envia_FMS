@@ -2,6 +2,12 @@
 
 {% block title %}Lista de proveedores{% endblock  %}
 
+{% block head %}
+  {{ block.super }}
+  {% load static %}
+  <script src="{% static 'proveedores/lista_proveedores.js' %}"></script>
+{% endblock %}
+
 {% block content %}
     <div class="container py-5">
         <h1>Lista de Proveedores</h1>
