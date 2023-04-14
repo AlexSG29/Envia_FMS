@@ -5,7 +5,9 @@
 <html lang="en"> 
 <title>{% block title %}{% endblock  %}</title>
  <!--//  Header  -->
+{% block head %}
 {% include 'dashboard/header.html' %}
+{% endblock  %}
 
 <body class="app">   	
     <header class="app-header fixed-top">	   	            
@@ -196,7 +198,9 @@
 
 
 <!--//Scripts--> 
+{% block footer %}
 {% include 'dashboard/scripts.html' %}
+{% endblock  %}
 
 </html> 
 
