@@ -12,7 +12,10 @@
 {% block content %}
     <div class="container py-5">
         <h1>Lista de Proveedores</h1>
-        <a href="{% url 'agregar_proveedor' %}" class="btn btn-primary mb-3">Agregar proveedor</a>
+        <div class="d-flex mb-3">
+            <a href="{% url 'agregar_proveedor' %}" class="btn btn-primary me-2">Agregar proveedor</a>
+            <button id="editar-proveedores-btn" class="btn btn-secondary">Editar proveedores</button>
+        </div>
         <div class="row">
             {% for proveedor in proveedores %}
             <div class="col-md-4">
@@ -22,7 +25,7 @@
                         <p class="card-text"> <i class="bi bi-telephone"></i> {{ proveedor.celular }}</p>
                         <p class="card-text"> <i class="bi bi-envelope"></i> {{ proveedor.correo }}</p>
                         <p class="card-text"><em>{{ proveedor.get_tipo_display }}</em></p>
-                        <div class="d-flex align-items-center">
+                        <div class="d-flex align-items-center btn-group-toggle editar-buttons" style="display: none;">
                             <a href="{% url 'editar_proveedor' proveedor.id %}" class="btn btn-link me-2">
                                 <i class="bi bi-pencil-square"></i>
                             </a>

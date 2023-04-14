@@ -32,4 +32,16 @@ document.addEventListener("DOMContentLoaded", function() {
             card.style.cursor = "default";
         });
     });
+
+    // Agregar evento click al botón de "Editar"
+    var btnEditar = document.createElement("button");
+    btnEditar.innerHTML = "Editar";
+    btnEditar.classList.add("btn", "btn-primary", "ms-2");
+    btnEditar.addEventListener("click", function() {
+        cards.forEach(function(card) {
+            card.classList.toggle("editando");
+        });
+    });
+    var btnAgregar = document.querySelector(".btn.btn-primary.mb-3");
+    btnAgregar.insertAdjacentElement("afterend", btnEditar);
 });
