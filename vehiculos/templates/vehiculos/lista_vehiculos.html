@@ -1,45 +1,51 @@
-<!-- templates/lista_vehiculos.html -->
 {% extends 'dashboard/layout.html' %}
 
 {% block content %}
-<h1>Lista de vehículos</h1>
+  <h1 class="mb-4">Lista de vehículos</h1>
 
-<table>
-    <thead>
+  <a href="{% url 'agregar_vehiculo' %}" class="btn btn-primary mb-3">Agregar vehículo</a>
+
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
         <tr>
-            <th>Placa</th>
-            <th>Tipo</th>
-            <th>Marca</th>
-            <th>Modelo</th>
-            <th>Año</th>
-            <th>Regional</th>
-            <th>Acciones</th>
+          <th>Placa</th>
+          <th>Tipo</th>
+          <th>Marca</th>
+          <th>Modelo</th>
+          <th>Año</th>
+          <th>Regional</th>
+          <th>Acciones</th>
         </tr>
-    </thead>
-    <tbody>
+      </thead>
+      <tbody>
         {% for vehiculo in vehiculos %}
-        <tr>
+          <tr>
             <td>{{ vehiculo.placa }}</td>
             <td>{{ vehiculo.tipo }}</td>
             <td>{{ vehiculo.marca }}</td>
             <td>{{ vehiculo.modelo }}</td>
             <td>{{ vehiculo.anio }}</td>
             <td>{{ vehiculo.regional }}</td>
-            <td>
-                <a href="{% url 'editar_vehiculo' vehiculo.id %}">Editar</a>
-                <form method="post" action="{% url 'eliminar_vehiculo' vehiculo.id %}">
-                    {% csrf_token %}
-                    <input type="submit" value="Eliminar" onclick="return confirm('¿Estás seguro de que deseas eliminar este vehículo?')">
-                </form>
+            <td class="d-inline-flex">
+              <a href="{% url 'editar_vehiculo' vehiculo.id %}" class="btn btn-sm btn-link">
+                <i class="bi bi-pencil-square"></i> <!-- Icono de editar -->
+              </a>
+              <form method="post" action="{% url 'eliminar_vehiculo' vehiculo.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-link" 
+                      onclick="return confirm('¿Estás seguro de que deseas eliminar este vehículo?')">
+                      <i class="bi bi-trash"></i> <!-- Icono de eliminar -->
+                </button>
+              </form>
             </td>
-        </tr>
+          </tr>
         {% empty %}
-        <tr>
+          <tr>
             <td colspan="7">No hay vehículos registrados</td>
-        </tr>
+          </tr>
         {% endfor %}
-    </tbody>
-</table>
-
-<a href="{% url 'agregar_vehiculo' %}">Agregar vehículo</a>
+      </tbody>
+    </table>
+  </div>
 {% endblock %}
