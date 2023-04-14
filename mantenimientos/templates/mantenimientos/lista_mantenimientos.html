@@ -1,52 +1,75 @@
+<!DOCTYPE html>
 {% extends 'dashboard/layout.html' %}
+{% load static %}
+<html lang="es"> 
 
-{% block head %}{% endblock %}
-
-{% block title %}
-  Lista de Mantenimientos
-{% endblock %}
-
+{% block title %} Inicio {% endblock  %}
+    
 {% block content %}
-  <div class="container">
-    <h1>Lista de Mantenimientos</h1>
-    <a href="{% url 'agregar_mantenimiento' %}">Agregar Mantenimiento</a>
-    {% if mantenimientos %}
-      <table>
-        <thead>
-          <tr>
-            <th>Placa</th>
-            <th>Tipo</th>
-            <th>OT</th>
-            <th>Fecha</th>
-            <th>Estado</th>
-            <th>Repuestos</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for mantenimiento in mantenimientos %}
-            <tr>
-              <td>{{ mantenimiento.placa }}</td>
-              <td>{{ mantenimiento.get_tipo_display }}</td>
-              <td>{{ mantenimiento.ot }}</td>
-              <td>{{ mantenimiento.fecha }}</td>
-              <td>{% if mantenimiento.estado %}Activo{% else %}Inactivo{% endif %}</td>
-              <td><a href="{% url 'ver_repuestos' mantenimiento.id %}">Ver</a></td>
-              <td>
-                <a href="{% url 'editar_mantenimiento' mantenimiento.id %}">Editar</a>
-                <a href="#" onclick="if (confirm('¿Estás seguro que deseas eliminar el mantenimiento {{ mantenimiento }}?')) { document.getElementById('eliminar-mantenimiento-{{ mantenimiento.id }}').submit(); }">Eliminar</a>
-                <form id="eliminar-mantenimiento-{{ mantenimiento.id }}" action="{% url 'eliminar_mantenimiento' mantenimiento.id %}" method="post">
-                  {% csrf_token %}
-                  <input type="hidden" name="mantenimiento_id" value="{{ mantenimiento.id }}">
-                  <input type="hidden" name="action" value="delete">
-                </form>
-              </td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    {% else %}
-      <p>No hay mantenimientos registrados.</p>
-    {% endif %}
-  </div>
-{% endblock %}
+
+<h1 class="mb-3">Lista de Mantenimientos</h1>
+<button class="btn btn-primary mb-4" onclick="location.href='{% url 'agregar_mantenimiento' %}'">Agregar Mantenimiento</button>
+
+
+<div class="tab-content" id="orders-table-tab-content">
+	<div class="tab-pane fade show active" id="orders-all" role="tabpanel" aria-labelledby="orders-all-tab">
+		<div class="app-card app-card-orders-table shadow-sm mb-5">
+			<div class="app-card-body">
+				<div class="table-responsive">
+					{% if mantenimientos %}
+					<table class="table app-table-hover mb-0 text-center">
+						<thead>
+							<tr>
+								<th class="cell">Placa</th>
+								<th class="cell">Tipo</th>
+								<th class="cell">OT</th>
+								<th class="cell">Fecha</th>
+								<th class="cell">Estado</th>
+								<th class="cell">Repuestos</th>
+								<th class="cell">Acciones</th>
+							  </tr>
+						</thead>
+						<tbody>
+							{% for mantenimiento in mantenimientos %}
+								<tr>
+									<td class="cell">{{ mantenimiento.placa }}</td>
+									<td class="cell">{{ mantenimiento.get_tipo_display }}</td>
+									<td class="cell">{{ mantenimiento.ot }}</td>
+									<td class="cell"><span class="note">{{ mantenimiento.fecha | date:"d/m/Y" }}</span></td>
+									<td class="cell">{% if mantenimiento.estado %}<span class="badge bg-success">Activo</span>
+													 {% else %}<span class="badge bg-warning">Inactivo</span>
+													 {% endif %}
+									</td>
+									<td class="cell"><a class="btn-sm app-btn-secondary" 
+														href="{% url 'ver_repuestos' mantenimiento.id %}">Ver
+													</a>
+									</td>
+									<td class="d-inline-flex">
+										<a href="{% url 'editar_mantenimiento' mantenimiento.id %}" class="btn btn-sm btn-link">
+										  <i class="bi bi-pencil-square" style="font-size: 1.2em;"></i> <!-- Icono de editar -->
+										</a>
+										<form method="post" action="{% url 'eliminar_mantenimiento' mantenimiento.id %}">
+										  {% csrf_token %}
+										  <button type="submit" class="btn btn-sm btn-link" 
+												onclick="return confirm('¿Estás seguro de que deseas eliminar este mantenimiento?')">
+												<i class="bi bi-trash" style="font-size: 1.2em;"></i> <!-- Icono de eliminar -->
+										  </button>
+										</form>
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+					{% else %}
+					<p>No hay mantenimientos registrados.</p>
+					{% endif %}
+				</div><!--//table-responsive-->
+			</div><!--//app-card-body-->		
+		</div><!--//app-card-->
+	</div>
+</div>
+{% endblock  %}				
+   
+</body>
+</html> 
+

@@ -34,7 +34,7 @@
             <td>{{ vehiculo.regional }}</td>
             <td class="d-inline-flex">
               <a href="{% url 'editar_vehiculo' vehiculo.id %}" class="btn btn-sm btn-link">
-                <i class="bi bi-pencil-square"></i> <!-- Icono de editar -->
+                <i class="bi bi-pencil-square" ></i> <!-- Icono de editar -->
               </a>
               <form method="post" action="{% url 'eliminar_vehiculo' vehiculo.id %}">
                 {% csrf_token %}
