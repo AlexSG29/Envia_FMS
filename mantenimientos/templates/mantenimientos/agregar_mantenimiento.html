@@ -12,7 +12,7 @@
   <form method="post">
     {% csrf_token %}
     <div class="form-group mb-3">
-      <label for="{{ form.placa.id_for_label }}">Placa:</label>
+      <label for="{{ form.placa.id_for_label }}" class="form-label">Placa:</label>
       {{ form.placa }}
     </div>
     <div class="form-group mb-3">
@@ -55,6 +55,9 @@
   </form>
 </div>
 {% endblock %}
+
+
+ <!-- templates/agregar_proveedor.html -->
 
 
 {% comment %} {% extends 'dashboard/layout.html' %}
