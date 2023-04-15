@@ -1,206 +1,126 @@
 <!DOCTYPE html>
 {% load static %}
-
-
-<html lang="en"> 
-<title>{% block title %}{% endblock  %}</title>
- <!--//  Header  -->
-{% block head %}
+<html lang="en">
+<title>{% block title %} {% endblock %}</title>
 {% include 'dashboard/header.html' %}
-{% endblock  %}
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+  <!-- Navbar -->
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+      </li>
+    </ul>
 
-<body class="app">   	
-    <header class="app-header fixed-top">	   	            
-        <div class="app-header-inner">  
-	        <div class="container-fluid py-2">
-		        <div class="app-header-content"> 
-					<div class="row justify-content-between align-items-center">
-						<div class="col-auto">
-						</div><!--//col-->
-						<div class="search-mobile-trigger d-sm-none col">
-							<i class="search-mobile-trigger-icon fas fa-search"></i>
-						</div><!--//col-->
-						<div class="app-search-box col">
-							<form class="app-search-form">   
-								<input type="text" placeholder="Buscar..." name="search" class="form-control search-input">
-								<button type="submit" class="btn search-btn btn-primary" value="Search"><i class="fas fa-search"></i></button> 
-							</form>
-						</div><!--//app-search-box-->
-						
-					<!--//Logout y Settings-->
-		            <div class="app-utilities col-auto"> 
-			            <div class="app-utility-item app-user-dropdown dropdown">
-				            <a class="dropdown-toggle ms-auto" id="user-dropdown-toggle" data-bs-toggle="dropdown" 
-								href="#" role="button" aria-expanded="false">
-								<i class="bi bi-person" style="font-size: 1.5em;"></i>
-							</a>
-				            <ul class="dropdown-menu" aria-labelledby="user-dropdown-toggle">
-								<li><a class="dropdown-item" href="#">Cuenta</a></li>
-								<li><a class="dropdown-item" href="#">Ajustes</a></li>
-								<li><hr class="dropdown-divider"></li>
-								<li><a class="dropdown-item" href="#">Cerrar Sesion</a></li>
-							</ul>
-			            </div><!--//app-user-dropdown--> 
-		            </div><!--//app-utilities-->
-		        </div><!--//row-->
-	            </div><!--//app-header-content-->
-	        </div><!--//container-fluid-->
-        </div><!--//app-header-inner-->
+    <!-- Right navbar links -->
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+          <i class="fas fa-expand-arrows-alt"></i>
+        </a>
+      </li>
+    </ul>
+  </nav>
+  <!-- /.navbar -->
 
-        <div id="app-sidepanel" class="app-sidepanel"> 
-	        <div id="sidepanel-drop" class="sidepanel-drop"></div>
-	        <div class="sidepanel-inner d-flex flex-column">
-		        <a href="#" id="sidepanel-close" class="sidepanel-close d-xl-none">&times;</a>
-		        <div class="app-branding">
-		            <a class="app-logo" href="{% url 'dashboard' %}">
-						<span class="logo-text">FMS</span>
-					</a>
-	
-		        </div><!--//app-branding-->  
-		        
-			    <nav id="app-nav-main" class="app-nav app-nav-main flex-grow-1">
-				    <ul class="app-menu list-unstyled accordion" id="menu-accordion">
-						
-					    <li class="nav-item">
-					        <a class="nav-link active" href="{% url 'dashboard' %}">
-						        <span class="nav-icon">
-									<i class="bi bi-house-door" style="font-size: 1.6em; 
-																	display: inline-block; 
-																	vertical-align: middle; 
-																	line-height: 1;">
-									</i>
-						         </span>
-		                         <span class="nav-link-text">Dashboard</span>
-					        </a><!--//nav-link-->
-					    </li><!--//nav-item-->
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="#" class="brand-link">
+      <span class="brand-text font-weight-light">Mantenimiento - FMS</span>
+    </a>
 
-						<li class="nav-item">
-					        <a class="nav-link" href="{% url 'lista_mantenimientos' %}">
-						        <span class="nav-icon">
-									<i class="bi bi-card-list" style="font-size: 1.6em; 
-																	display: inline-block; 
-																	vertical-align: middle; 
-																	line-height: 1;">
-									</i>
-						         </span>
-		                         <span class="nav-link-text">Mantenimientos</span>
-					        </a><!--//nav-link-->
-					    </li><!--//nav-item-->
-
-					    <li class="nav-item">
-					        <a class="nav-link" href="{% url 'lista_proveedores' %}">
-						        <span class="nav-icon">
-									<i class="bi bi-people" style="font-size: 1.6em; 
-																	display: inline-block; 
-																	vertical-align: middle; 
-																	line-height: 1;">
-									</i>
-						         </span>
-		                         <span class="nav-link-text">Proveedores</span>
-					        </a><!--//nav-link-->
-					    </li><!--//nav-item-->
-
-						<li class="nav-item">
-					        <a class="nav-link" href="{% url 'lista_vehiculos' %}">
-						        <span class="nav-icon">
-									<i class="bi bi-truck" style="font-size: 1.6em; 
-																	display: inline-block; 
-																	vertical-align: middle; 
-																	line-height: 1;">
-									</i>
-						         </span>
-		                         <span class="nav-link-text">Vehiculos</span>
-					        </a><!--//nav-link-->
-					    </li><!--//nav-item-->
-
-						<li class="nav-item">
-					        <a class="nav-link" href="{% url 'lista_repuestos' %}">
-						        <span class="nav-icon">
-									<i class="bi bi-bookshelf" style="font-size: 1.6em; 
-																	display: inline-block; 
-																	vertical-align: middle; 
-																	line-height: 1;">
-									</i>
-						         </span>
-		                         <span class="nav-link-text">Repuestos</span>
-					        </a><!--//nav-link-->
-					    </li><!--//nav-item-->
-
-						<li class="nav-item">
-					        <a class="nav-link" href="#">
-						        <span class="nav-icon">
-									<i class="bi bi-bar-chart" style="font-size: 1.6em; 
-																	display: inline-block; 
-																	vertical-align: middle; 
-																	line-height: 1;">
-									</i>
-						         </span>
-		                         <span class="nav-link-text">Analisis</span>
-					        </a><!--//nav-link-->
-					    </li><!--//nav-item-->
-						
-						<li class="nav-item">
-					        <a class="nav-link" href="#">
-						        <span class="nav-icon">
-									<i class="bi bi-clipboard-minus" style="font-size: 1.6em; 
-																	display: inline-block; 
-																	vertical-align: middle; 
-																	line-height: 1;">
-									</i>
-						         </span>
-		                         <span class="nav-link-text">Informes</span>
-					        </a><!--//nav-link-->
-					    </li><!--//nav-item-->
-					    			    
-				    </ul><!--//app-menu-->
-			    </nav><!--//app-nav-->
-
-			    <div class="app-sidepanel-footer">
-				    <nav class="app-nav app-nav-footer">
-					    <ul class="app-menu footer-menu list-unstyled">
-
-						    <li class="nav-item">
-						        <a class="nav-link" href="s#">
-							        <span class="nav-icon">
-							            <i class="bi bi-person-gear" style="font-size: 1.6em; 
-																	display: inline-block; 
-																	vertical-align: middle; 
-																	line-height: 1;">
-										</i>
-							        </span>
-			                        <span class="nav-link-text">Cuenta</span>
-						        </a><!--//nav-link-->
-
-					    </ul><!--//footer-menu-->
-				    </nav>
-			    </div><!--//app-sidepanel-footer-->
-		       
-	        </div><!--//sidepanel-inner-->
-	    </div><!--//app-sidepanel-->
-    </header><!--//app-header-->
+    <!-- Sidebar -->
+    <div class="sidebar">
     
+      <!-- SidebarSearch Form -->
+      <div class="form-inline mt-3 pb-3 mb-3 ">
+        <div class="input-group" data-widget="sidebar-search">
+          <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
+          <div class="input-group-append">
+            <button class="btn btn-sidebar">
+              <i class="fas fa-search fa-fw"></i>
+            </button>
+          </div>
+        </div>
+      </div>
 
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="bi bi-grid-1x2 align-middle me-2" style="font-size: 1.3em;"></i>
+              <p>
+                Dashboard
+              </p>
+            </a>
+          </li>          
+          
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="bi bi-clipboard-minus align-middle me-2" style="font-size: 1.47em;"></i>
+              <p>
+                Mantenimientos
+              </p>
+            </a>
+          </li>
 
-	<!--// contend -->
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="bi bi-people align-middle me-2" style="font-size: 1.5em;"></i>
+              <p>
+                Proveedores
+              </p>
+            </a>
+          </li>
 
-    <div class="app-wrapper">
-	    
-	    <div class="app-content pt-3 p-md-3 p-lg-4">
-		    <div class="container-xl">
-			    
-				{% block content %}{% endblock  %}
-			    
-		    </div><!--//container-fluid-->
-	    </div><!--//app-content-->
-	    
-    </div><!--//app-wrapper-->    					
-</body>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="bi bi-car-front align-middle me-2" style="font-size: 1.5em;"></i>
+              <p>
+                Vehiculos
+              </p>
+            </a>
+          </li>
 
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="bi bi-bookshelf align-middle me-2" style="font-size: 1.5em;"></i>
+              <p>
+                Repuestos
+              </p>
+            </a>
+          </li>
 
-<!--//Scripts--> 
-{% block footer %}
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="bi bi-calendar4-week align-middle me-2" style="font-size: 1.45em;"></i>
+              <p>
+                Cronograma
+              </p>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+      {% block content %}{% endblock content %}
+    </section>
+    <!-- /.content -->
+  </div>
+
+</div>
+<!-- ./wrapper -->
 {% include 'dashboard/scripts.html' %}
-{% endblock  %}
-
-</html> 
-
+</body>
+</html>
