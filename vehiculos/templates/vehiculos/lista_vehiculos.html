@@ -1,34 +1,43 @@
 {% extends 'dashboard/layout.html' %}
 
-
 {% block head %}
   {{ block.super }}
 {% endblock head %}
 
 {% block content %}
   <h1 class="mb-4">Lista de vehículos</h1>
-  <div class="mb-3">
-    <div class="row">
-      <div class="col">
-        <a href="{% url 'agregar_vehiculo' %}" class="btn btn-primary mb-3">Agregar vehículo</a>
-      </div>
-      <div class="col">
-        <form action="{% url 'lista_vehiculos' %}" method="GET" class="form-inline">
-          <div class="form-group mb-2" style="margin-right: 5px;">
-            <label for="regional" class="sr-only">Regional:</label>
-            <select class="form-control" id="regional" name="regional">
-              <option value="">Todas las regionales</option>
-              {% for r in regionales %}
-              <option value="{{ r }}">{{ r }}</option>
-              {% endfor %}
-            </select>
-          </div>
-          <button type="submit" class="btn btn-primary mb-2">Filtrar</button>
-        </form>
-      </div>
+  
+  <div class="mb-3 row">
+    <div class="col">
+      <a href="{% url 'agregar_vehiculo' %}" class="btn btn-primary mb-3">Agregar vehículo</a>
+    </div>
+    
+    <div class="col">
+      <form action="{% url 'lista_vehiculos' %}" method="GET" class="form-inline">
+        <div class="form-group mb-2 mr-3">
+          <label for="regional" class="sr-only">Regional:</label>
+          <select class="form-control" id="regional" name="regional">
+            <option value="" >Todas las regionales</option>
+            {% for r in regionales %}
+            <option value="{{ r }}">{{ r }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        
+        <div class="form-group mb-2 mr-3">
+          <label for="tipo" class="sr-only">Tipo:</label>
+          <select class="form-control" id="tipo" name="tipo">
+            <option value="">Todos los tipos</option>
+            {% for t in tipos %}
+            <option value="{{ t }}">{{ t }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        
+        <button type="submit" class="btn btn-primary mb-2">Filtrar</button>
+      </form>
     </div>
   </div>
-  
 
   <div class="table-responsive">
     <table class="table table-striped">
@@ -43,6 +52,7 @@
           <th>Acciones</th>
         </tr>
       </thead>
+      
       <tbody>
         {% for vehiculo in vehiculos %}
           <tr>

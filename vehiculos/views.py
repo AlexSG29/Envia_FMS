@@ -3,7 +3,7 @@ from .models import Vehiculo
 from .forms import VehiculoForm
 
 
-def lista_vehiculos(request):
+""" def lista_vehiculos(request):
     vehiculos = Vehiculo.objects.all().order_by('placa')
     regionales = set(vehiculos.values_list('regional', flat=True))
     regional_filtro = request.GET.get('regional')
@@ -13,7 +13,27 @@ def lista_vehiculos(request):
     
     return render(request, 'vehiculos/lista_vehiculos.html', 
                   {'vehiculos': vehiculos,
-                   'regionales': regionales})
+                   'regionales': regionales}) """
+
+def lista_vehiculos(request):
+    vehiculos = Vehiculo.objects.all().order_by('placa')
+    regionales = set(vehiculos.values_list('regional', flat=True))
+    tipos = set(vehiculos.values_list('tipo', flat=True))
+    
+    regional_filtro = request.GET.get('regional')
+    tipo_filtro = request.GET.get('tipo')
+    
+    if regional_filtro:
+        vehiculos = vehiculos.filter(regional=regional_filtro)
+    
+    if tipo_filtro:
+        vehiculos = vehiculos.filter(tipo=tipo_filtro)
+    
+    return render(request, 'vehiculos/lista_vehiculos.html', 
+                  {'vehiculos': vehiculos,
+                   'regionales': regionales,
+                   'tipos': tipos})
+
 
 
 def agregar_vehiculo(request):

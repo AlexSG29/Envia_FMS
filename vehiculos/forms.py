@@ -14,4 +14,5 @@ class VehiculoForm(forms.ModelForm):
             'anio': 'Año',
             'regional': 'Regional',
         }
-    tipo = forms.ChoiceField(choices=Vehiculo.TIPO_OPCIONES, label='Tipo', widget=forms.Select(attrs={'class': 'form-control'}))
+    tipo = forms.ChoiceField(choices=Vehiculo.TIPO_OPCIONES, label='Tipo', 
+                             widget=forms.Select(attrs={'class': 'form-control'}))
