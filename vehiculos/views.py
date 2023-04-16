@@ -5,8 +5,16 @@ from .forms import VehiculoForm
 
 def lista_vehiculos(request):
     vehiculos = Vehiculo.objects.all().order_by('placa')
+    regionales = set(vehiculos.values_list('regional', flat=True))
+    regional_filtro = request.GET.get('regional')
+    
+    if regional_filtro:
+        vehiculos = vehiculos.filter(regional=regional_filtro)
+    
     return render(request, 'vehiculos/lista_vehiculos.html', 
-                  {'vehiculos': vehiculos})
+                  {'vehiculos': vehiculos,
+                   'regionales': regionales})
+
 
 def agregar_vehiculo(request):
     if request.method == 'POST':
