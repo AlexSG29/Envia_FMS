@@ -7,23 +7,28 @@
 
 {% block content %}
   <h1 class="mb-4">Lista de vehículos</h1>
-
   <div class="mb-3">
-    <form action="{% url 'lista_vehiculos' %}" method="GET" class="form-inline">
-      <div class="form-group mb-2">
-        <label for="regional" class="sr-only">Regional:</label>
-        <select class="form-control" id="regional" name="regional">
-          <option value="">Todas las regionales</option>
-          {% for r in regionales %}
-            <option value="{{ r }}">{{ r }}</option>
-          {% endfor %}
-        </select>
+    <div class="row">
+      <div class="col">
+        <a href="{% url 'agregar_vehiculo' %}" class="btn btn-primary mb-3">Agregar vehículo</a>
       </div>
-      <button type="submit" class="btn btn-primary mb-2">Filtrar</button>
-    </form>
+      <div class="col">
+        <form action="{% url 'lista_vehiculos' %}" method="GET" class="form-inline">
+          <div class="form-group mb-2" style="margin-right: 5px;">
+            <label for="regional" class="sr-only">Regional:</label>
+            <select class="form-control" id="regional" name="regional">
+              <option value="">Todas las regionales</option>
+              {% for r in regionales %}
+              <option value="{{ r }}">{{ r }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary mb-2">Filtrar</button>
+        </form>
+      </div>
+    </div>
   </div>
-
-  <a href="{% url 'agregar_vehiculo' %}" class="btn btn-primary mb-3">Agregar vehículo</a>
+  
 
   <div class="table-responsive">
     <table class="table table-striped">
