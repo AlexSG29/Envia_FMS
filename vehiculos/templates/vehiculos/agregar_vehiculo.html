@@ -9,7 +9,9 @@
       <div class="form-group row mb-3">
         <label for="{{ form.placa.id_for_label }}" class="col-sm-2 col-form-label">Placa:</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="{{ form.placa.id_for_label }}" name="{{ form.placa.name }}" value="{{ form.placa.value }}">
+          <input type="text" class="form-control" id="{{ form.placa.id_for_label }}" 
+                name="{{ form.placa.name }}" value="{{ form.placa.value | default:'' }}" 
+                oninput="this.value = this.value.toUpperCase()">
         </div>
       </div>
       
@@ -23,28 +25,33 @@
       <div class="form-group row mb-3">
         <label for="{{ form.marca.id_for_label }}" class="col-sm-2 col-form-label">Marca:</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="{{ form.marca.id_for_label }}" name="{{ form.marca.name }}" value="{{ form.marca.value }}">
+          <input type="text" class="form-control" id="{{ form.marca.id_for_label }}" 
+                name="{{ form.marca.name }}" value="{{ form.marca.value }}">
         </div>
       </div>
 
       <div class="form-group row mb-3">
         <label for="{{ form.modelo.id_for_label }}" class="col-sm-2 col-form-label">Modelo:</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="{{ form.modelo.id_for_label }}" name="{{ form.modelo.name }}" value="{{ form.modelo.value }}">
+          <input type="text" class="form-control" id="{{ form.modelo.id_for_label }}" 
+                name="{{ form.modelo.name }}" value="{{ form.modelo.value }}"
+                oninput="this.value = this.value.toUpperCase()">
         </div>
       </div>
 
       <div class="form-group row mb-3">
         <label for="{{ form.anio.id_for_label }}" class="col-sm-2 col-form-label">Año:</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="{{ form.anio.id_for_label }}" name="{{ form.anio.name }}" value="{{ form.anio.value }}">
+          <input type="text" class="form-control" id="{{ form.anio.id_for_label }}" 
+                name="{{ form.anio.name }}" value="{{ form.anio.value | default:'' }}">
         </div>
       </div>
 
       <div class="form-group row mb-3">
         <label for="{{ form.regional.id_for_label }}" class="col-sm-2 col-form-label">Regional:</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="{{ form.regional.id_for_label }}" name="{{ form.regional.name }}" value="{{ form.regional.value }}">
+          <input type="text" class="form-control" id="{{ form.regional.id_for_label }}" 
+                name="{{ form.regional.name }}" value="{{ form.regional.value }}">
         </div>
       </div>
 
