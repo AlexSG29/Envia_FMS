@@ -22,6 +22,8 @@ class Mantenimiento(models.Model):
 
     def __str__(self):
         return f"Mantenimiento {self.tipo} en {self.placa} en {self.fecha}"
+    class Meta:
+        ordering = ['-fecha']
 
 #Adjuntar repuestos a cada mantenimiento
 class RepuestoMantenimiento(models.Model):
