@@ -39,19 +39,27 @@
 													 {% else %}<span class="badge bg-warning">Inactivo</span>
 													 {% endif %}
 									</td>
-									<td class="cell align-middle"><a class="btn-sm app-btn-secondary" 
-														href="{% url 'ver_repuestos' mantenimiento.id %}">
-														<i class="bi bi-tools" style="font-size: 1.2em;"></i>
-													</a>
+									<td class="cell align-middle">
+										<a class="btn btn-sm btn-link" href="{% url 'ver_repuestos' mantenimiento.id %}">
+											<button type="submit" class="btn btn-sm btn-link" 
+													onclick="event.stopPropagation();">
+											<i class="bi bi-tools" style="font-size: 1.2em;"></i>
+										</a>
+									</button>
+													
 									</td>
 									<td class="d-inline-flex allign-middle">
-										<a href="{% url 'editar_mantenimiento' mantenimiento.id %}" class="btn btn-sm btn-link">
-										  <i class="bi bi-pencil-square" style="font-size: 1.2em;"></i> <!-- Icono de editar -->
+										<a href="{% url 'editar_mantenimiento' mantenimiento.id %}">
+											<button type="submit" class="btn btn-sm btn-link" 
+												onclick="event.stopPropagation()">
+												<i class="bi bi-pencil-square" style="font-size: 1.2em;"></i><!-- Icono de editar -->
+										  	</button>
 										</a>
+										
 										<form method="post" action="{% url 'eliminar_mantenimiento' mantenimiento.id %}">
 										  {% csrf_token %}
 										  <button type="submit" class="btn btn-sm btn-link" 
-												onclick="return confirm('¿Estás seguro de que deseas eliminar este mantenimiento?')">
+												onclick="event.stopPropagation(); return confirm('¿Estás seguro de que deseas eliminar este mantenimiento?')">
 												<i class="bi bi-trash" style="font-size: 1.2em;"></i> <!-- Icono de eliminar -->
 										  </button>
 										</form>
