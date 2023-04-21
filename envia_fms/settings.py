@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'vehiculos',
     'proveedores',
     'repuestos',
+    'cronograma',
 
 ]
 
