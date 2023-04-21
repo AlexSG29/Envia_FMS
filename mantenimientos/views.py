@@ -9,7 +9,6 @@ def lista_mantenimientos(request):
     context = {'mantenimientos': mantenimientos}
     return render(request, 'mantenimientos/lista_mantenimientos.html', context)
 
-
 #Agregar un nuevo mantenimiento
 def agregar_mantenimiento(request):
     if request.method == 'POST':

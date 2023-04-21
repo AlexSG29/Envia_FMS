@@ -12,13 +12,13 @@
   <div class="container">
     <h1>Agregar Repuesto al Mantenimiento {{ mantenimiento }}</h1>
     {% for message in messages_list %}
-      <div class="alert alert-{{ message.tags }} role="alert">
+      <div class="alert alert-{{ message.tags }}" role="alert">
         {{ message }}
       </div>
     {% endfor %}
     <form method="post">
       {% csrf_token %}
-      {{ form.as_p }} {# utilizar el formulario form que está en el contexto #}
+      {{ form.as_p }}
       <button type="submit" class="btn btn-primary">Agregar otro repuesto</button>
     </form>
   </div>
