@@ -15,6 +15,9 @@ from .forms import VehiculoForm
                   {'vehiculos': vehiculos,
                    'regionales': regionales}) """
 
+from django.core.paginator import Paginator
+
+
 def lista_vehiculos(request):
     vehiculos = Vehiculo.objects.all().order_by('placa')
     regionales = set(vehiculos.values_list('regional', flat=True))
@@ -29,10 +32,19 @@ def lista_vehiculos(request):
     if tipo_filtro:
         vehiculos = vehiculos.filter(tipo=tipo_filtro)
     
-    return render(request, 'vehiculos/lista_vehiculos.html', 
-                  {'vehiculos': vehiculos,
-                   'regionales': regionales,
-                   'tipos': tipos})
+    paginator = Paginator(vehiculos, 20)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        'page_obj': page_obj,
+        'regionales': regionales,
+        'tipos': tipos,
+    }
+
+    return render(request, 'vehiculos/lista_vehiculos.html', context)
+
+
 
 
 

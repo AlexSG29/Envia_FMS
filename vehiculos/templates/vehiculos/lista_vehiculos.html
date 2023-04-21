@@ -54,7 +54,7 @@
       </thead>
       
       <tbody>
-        {% for vehiculo in vehiculos %}
+        {% for vehiculo in page_obj %}
           <tr>
             <td>{{ vehiculo.placa }}</td>
             <td>{{ vehiculo.tipo }}</td>
@@ -64,7 +64,7 @@
             <td>{{ vehiculo.regional }}</td>
             <td class="d-inline-flex">
               <a href="{% url 'editar_vehiculo' vehiculo.id %}" class="btn btn-sm btn-link">
-                <i class="bi bi-pencil-square" ></i> <!-- Icono de editar -->
+                <i class="bi bi-pencil-square"></i> <!-- Icono de editar -->
               </a>
               <form method="post" action="{% url 'eliminar_vehiculo' vehiculo.id %}">
                 {% csrf_token %}
@@ -83,4 +83,24 @@
       </tbody>
     </table>
   </div>
+  <!-- Paginacion de la tabla -->
+  {% if page_obj.has_other_pages %}
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1{% if request.GET.regional %}&regional={{ request.GET.regional }}{% endif %}{% if request.GET.tipo %}&tipo={{ request.GET.tipo }}{% endif %}">&laquo; Primera</a>
+                <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.regional %}&regional={{ request.GET.regional }}{% endif %}{% if request.GET.tipo %}&tipo={{ request.GET.tipo }}{% endif %}">Anterior</a>
+            {% endif %}
+
+            <span class="current-page">
+                Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}{% if request.GET.regional %}&regional={{ request.GET.regional }}{% endif %}{% if request.GET.tipo %}&tipo={{ request.GET.tipo }}{% endif %}">Siguiente</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.regional %}&regional={{ request.GET.regional }}{% endif %}{% if request.GET.tipo %}&tipo={{ request.GET.tipo }}{% endif %}">Última &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+  {% endif %}
 {% endblock %}
