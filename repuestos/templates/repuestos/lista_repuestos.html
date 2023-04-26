@@ -5,9 +5,13 @@
 
 {% block content %}
     <div class="container">
-        <h1 class="my-4">Lista de repuestos</h1>
+        <h1 class="mb-4">Lista de repuestos</h1>
+        
+        <button class="btn btn-primary mb-4" onclick="location.href='{% url 'agregar_repuesto' %}'">
+            Agregar repuesto
+        </button>
 
-        <div class="row">
+        <div class="tab-content">
             <div class="col-md-12">
                 <table class="table table-sm">
                     <thead>
@@ -40,12 +44,6 @@
                         {% endfor %}
                     </tbody>
                 </table>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <a href="{% url 'agregar_repuesto' %}" class="btn btn-primary">Agregar repuesto</a>
             </div>
         </div>
     </div>
