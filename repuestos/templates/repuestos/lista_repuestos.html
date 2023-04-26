@@ -6,10 +6,17 @@
 {% block content %}
     <div class="container">
         <h1 class="mb-4">Lista de repuestos</h1>
+
+        <div class="d-flex mb-4">
+            <a href="{% url 'agregar_repuesto' %}" class="mr-4 align-self-center">
+                <i class="bi bi-plus-square fa-2x"></i> <!-- Icono de agregar repuesto -->
+            </a>
+            <form class="form-inline">
+                <input class="form-control mr-sm-2 w-60" type="search" placeholder="Buscar repuestos ..." aria-label="Search">
+                <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Buscar</button>
+            </form>
+        </div>
         
-        <button class="btn btn-primary mb-4" onclick="location.href='{% url 'agregar_repuesto' %}'">
-            Agregar repuesto
-        </button>
 
         <div class="tab-content">
             <div class="col-md-12">
