@@ -6,4 +6,5 @@ urlpatterns = [
       path('agregar/', views.agregar_proveedor, name='agregar_proveedor'),
       path('eliminar/<int:proveedor_id>/', views.borrar_proveedor, name='borrar_proveedor'),
       path('editar/<int:proveedor_id>/', views.editar_proveedor, name='editar_proveedor'),
+      path('mensaje/<str:celular>/', views.whatsapp, name='enviar_mensaje'), #Para enviar msg al proveedor
 ]
