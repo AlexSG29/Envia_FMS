@@ -7,4 +7,4 @@ urlpatterns = [
       path('editar_repuesto/<int:repuesto_id>/', views.editar_repuesto, name='editar_repuesto'),#editar el repuesto
       path('eliminar_repuesto/<int:repuesto_id>/', views.eliminar_repuesto, name='eliminar_repuesto'),#eliminar el repuesto
 
-]
+] 

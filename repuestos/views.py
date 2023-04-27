@@ -5,9 +5,19 @@ from .forms import RepuestoForm
 
 #Vista para poder todos los repuestos
 def lista_repuestos(request):
+    query = request.GET.get('q')
+    if query:
+        repuestos = Repuesto.objects.filter(nombre__icontains=query)
+    else:
+        repuestos = Repuesto.objects.all()
+    return render(request, 'repuestos/lista_repuestos.html', {'repuestos': repuestos})
+
+
+
+""" def lista_repuestos(request):
     repuestos = Repuesto.objects.all()
     return render(request, 'repuestos/lista_repuestos.html', 
-                  {'repuestos': repuestos})
+                  {'repuestos': repuestos}) """
 
 #Agregar nuevos repuestos
 def agregar_repuesto(request):
