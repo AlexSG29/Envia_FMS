@@ -1,8 +1,0 @@
-.card {
-    transition: box-shadow 0.2s, transform 0.2s, cursor 0.2s;
-  }
-  
-.card:hover {
-    transform: translate3d(0, -px, 0) !important;
-  }
-
