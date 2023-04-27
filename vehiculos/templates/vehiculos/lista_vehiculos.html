@@ -80,22 +80,39 @@
       
     </div>
   </div>
+
   <!-- Paginacion de la tabla -->
   {% if page_obj.has_other_pages %}
-    <div class="pagination">
+    <div class="pagination-container d-flex justify-content-center">
         <span class="step-links">
             {% if page_obj.has_previous %}
-                <a href="?page=1{% if request.GET.regional %}&regional={{ request.GET.regional }}{% endif %}{% if request.GET.tipo %}&tipo={{ request.GET.tipo }}{% endif %}">&laquo; Primera</a>
-                <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.regional %}&regional={{ request.GET.regional }}{% endif %}{% if request.GET.tipo %}&tipo={{ request.GET.tipo }}{% endif %}">Anterior</a>
+                <a href="?page=1{% if request.GET.regional %}&regional={{ request.GET.regional }}
+                                {% endif %}
+                                {% if request.GET.tipo %}&tipo={{ request.GET.tipo }}
+                                {% endif %}"><i class="bi bi-chevron-double-left" style="font-size: 1.2rem;"></i>
+                </a>
+                <a href="?page={{ page_obj.previous_page_number }}
+                                {% if request.GET.regional %}&regional={{ request.GET.regional }}
+                                {% endif %}{% if request.GET.tipo %}&tipo={{ request.GET.tipo }}
+                                {% endif %}"><i class="bi bi-chevron-left" style="font-size: 1.2rem;"></i>
+                </a>
             {% endif %}
 
             <span class="current-page">
-                Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+              {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
             </span>
 
             {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}{% if request.GET.regional %}&regional={{ request.GET.regional }}{% endif %}{% if request.GET.tipo %}&tipo={{ request.GET.tipo }}{% endif %}">Siguiente</a>
-                <a href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.regional %}&regional={{ request.GET.regional }}{% endif %}{% if request.GET.tipo %}&tipo={{ request.GET.tipo }}{% endif %}">Última &raquo;</a>
+                <a href="?page={{ page_obj.next_page_number }}
+                                {% if request.GET.regional %}&regional={{ request.GET.regional }}
+                                {% endif %}{% if request.GET.tipo %}&tipo={{ request.GET.tipo }}
+                                {% endif %}"><i class="bi bi-chevron-right" style="font-size: 1.2rem;"></i>
+                </a>
+                <a href="?page={{ page_obj.paginator.num_pages }}
+                                {% if request.GET.regional %}&regional={{ request.GET.regional }}
+                                {% endif %}{% if request.GET.tipo %}&tipo={{ request.GET.tipo }}
+                                {% endif %}"><i class="bi bi-chevron-double-right" style="font-size: 1.2rem;"></i>
+                </a>
             {% endif %}
         </span>
     </div>
