@@ -1,14 +1,28 @@
 {% extends 'dashboard/layout.html' %}
 
+{% block title %}Agregar Repuesto{% endblock title %}
+
 {% block content %}
-<h1>Agregar repuesto</h1>
-
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Guardar</button>
-</form>
-
-<a href="{% url 'lista_repuestos' %}">Volver a la lista de repuestos</a>
-
+    <div class="container">
+        <h1 class="my-4">Agregar repuesto</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group row mb-3">
+                <label for="{{ form.nombre.id_for_label }}" class="col-sm-2 ">Repuesto:</label>
+                <div class="col-sm-10 col-lg-6">
+                    <input type="text" class="form-control" id="{{ form.nombre.id_for_label }}" 
+                           name="{{ form.nombre.name }}" value="{{ form.modelo.value }}"
+                           oninput="this.value = this.value.toUpperCase()">
+                </div>
+            </div>
+            <div class="form-group row mb-3">
+                <div class="col-sm-10 offset-sm-2 col-lg-6 offset-lg-2">
+                    <input type="submit" value="Guardar" class="btn btn-primary">
+                    <a href="{% url 'lista_repuestos' %}" class="btn btn-secondary">
+                        Volver a la lista
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
 {% endblock %}
