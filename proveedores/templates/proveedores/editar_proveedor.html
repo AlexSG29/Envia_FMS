@@ -2,7 +2,7 @@
 {% extends 'dashboard/layout.html' %}
 
 {% block title %}Editar proveedor{% endblock %}
-
+ 
 {% block content %}
     <div class="container py-5">
         <h1>Editar proveedor "{{ proveedor.nombre }}"</h1>
@@ -11,14 +11,23 @@
             <div class="form-group">
                 <label for="{{ form.nombre.id_for_label }}" class="form-label">Nombre</label>
                 {{ form.nombre }}
+                <small class="form-text text-muted">
+                    Razón social
+                </small>
             </div>
             <div class="form-group">
                 <label for="{{ form.celular.id_for_label }}" class="form-label">Celular</label>
                 {{ form.celular }}
+                <small class="form-text text-muted">
+                    Ingrese el número de celular del proveedor (10 dígitos).
+                </small>
             </div>
             <div class="form-group">
                 <label for="{{ form.correo.id_for_label }}" class="form-label">Correo electrónico</label>
                 {{ form.correo }}
+                <small class="form-text text-muted">
+                    Ingrese el un correo electrónico válido.
+                </small>
             </div>
             <div class="form-group">
                 <label for="{{ form.tipo.id_for_label }}" class="form-label">Tipo</label>
@@ -27,6 +36,10 @@
             <div class="form-group">
                 <label for="{{ form.descripcion.id_for_label }}" class="form-label">Descripción</label>
                 {{ form.descripcion }}
+                <small class="form-text text-muted">
+                    Mas información sobre el proveedor
+                </small>
+                
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">Guardar cambios</button>
