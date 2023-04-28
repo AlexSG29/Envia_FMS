@@ -32,7 +32,7 @@ def lista_vehiculos(request):
     if tipo_filtro:
         vehiculos = vehiculos.filter(tipo=tipo_filtro)
     
-    paginator = Paginator(vehiculos, 4)
+    paginator = Paginator(vehiculos, 15)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
