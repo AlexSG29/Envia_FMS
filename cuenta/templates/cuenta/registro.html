@@ -1,0 +1,55 @@
+{% extends 'dashboard/layout.html' %}
+
+{% block content %}
+<div class="container">
+  <h2>Registro</h2>
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-group{% if form.username.errors %} has-error{% endif %}">
+      <label for="{{ form.username.id_for_label }}">Nombre de usuario</label>
+      <input type="text" class="form-control" name="{{ form.username.name }}" id="{{ form.username.id_for_label }}" value="{{ form.username.value|default:'' }}">
+      {% if form.username.errors %}
+      <span class="help-block">
+        {% for error in form.username.errors %}
+        {{ error }}
+        {% endfor %}
+      </span>
+      {% endif %}
+    </div>
+    <div class="form-group{% if form.email.errors %} has-error{% endif %}">
+      <label for="{{ form.email.id_for_label }}">Correo electrónico</label>
+      <input type="email" class="form-control" name="{{ form.email.name }}" id="{{ form.email.id_for_label }}" value="{{ form.email.value|default:'' }}">
+      {% if form.email.errors %}
+      <span class="help-block">
+        {% for error in form.email.errors %}
+        {{ error }}
+        {% endfor %}
+      </span>
+      {% endif %}
+    </div>
+    <div class="form-group{% if form.password1.errors %} has-error{% endif %}">
+      <label for="{{ form.password1.id_for_label }}">Contraseña</label>
+      <input type="password" class="form-control" name="{{ form.password1.name }}" id="{{ form.password1.id_for_label }}" value="{{ form.password1.value|default:'' }}">
+      {% if form.password1.errors %}
+      <span class="help-block">
+        {% for error in form.password1.errors %}
+        {{ error }}
+        {% endfor %}
+      </span>
+      {% endif %}
+    </div>
+    <div class="form-group{% if form.password2.errors %} has-error{% endif %}">
+      <label for="{{ form.password2.id_for_label }}">Confirmar contraseña</label>
+      <input type="password" class="form-control" name="{{ form.password2.name }}" id="{{ form.password2.id_for_label }}" value="{{ form.password2.value|default:'' }}">
+      {% if form.password2.errors %}
+      <span class="help-block">
+        {% for error in form.password2.errors %}
+        {{ error }}
+        {% endfor %}
+      </span>
+      {% endif %}
+    </div>
+    <button type="submit" class="btn btn-primary">Registrarse</button>
+  </form>
+</div>
+{% endblock %}

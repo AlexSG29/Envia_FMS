@@ -31,13 +31,13 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'cuenta',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cuenta',
     'dashboard',
     'mantenimientos',
     'vehiculos',
@@ -133,12 +133,17 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #AUTENTICACION DE USUARIO
 
-AUTHENTICATION_BACKENDS = [
+LOGIN_REDIRECT_URL = 'dashboard'
+LOGOUT_REDIRECT_URL = 'login'
+
+""" AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
 
 LOGIN_URL = '/accounts/login/'
-LOGIN_REDIRECT_URL = 'dashboard'
-LOGOUT_REDIRECT_URL = '/accounts/login/'
 
 #AUTH_USER_MODEL = 'cuenta.Usuario'
+
+# Configuración de sesión para el administrador de Django
+SESSION_COOKIE_NAME = 'django_admin_session'
+SESSION_ENGINE = 'django.contrib.sessions.backends.db' """
