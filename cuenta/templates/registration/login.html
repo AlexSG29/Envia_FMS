@@ -1,12 +1,69 @@
-{% extends 'dashboard/layout.html' %}
- 
-{% block content %}
-  <h2>Iniciar sesión</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Iniciar sesión</button>
-    <a href="{% url 'registro' %}">Registrarse</a>
+<!DOCTYPE html>
+<html lang="es">
 
-  </form>
-{% endblock %}
+{% include 'dashboard/header.html' %}
+
+<body class="hold-transition login-page">
+<div class="login-box">
+
+  <div class="card card-outline card-primary">
+    <div class="card-header text-center">
+      <a href="{% url 'dashboard' %}" class="h1"><b>Mant </b>FMS</a>
+    </div>
+    <div class="card-body">
+      <p class="login-box-msg">Inicia sesión en este dispositivo</p>
+
+      <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Nombre de usuario" name="username">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-envelope"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="password" class="form-control" placeholder="Contraseña" name="password">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-8">
+            <div class="icheck-primary">
+              <input type="checkbox" id="remember" name="remember">
+              <label for="remember">
+                Recordarme
+              </label>
+            </div>
+          </div>
+          <div class="col-4">
+            <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+          </div>
+        </div>
+      </form>
+      
+      <div class="social-auth-links text-center mt-2 mb-3">
+        <a href="#" class="btn btn-block btn-primary">
+          <i class="fab fa-facebook mr-2"></i> Inicia sesión con Facebook
+        </a>
+        <a href="#" class="btn btn-block btn-danger">
+          <i class="fab fa-google-plus mr-2"></i> Inicia sesión con Google+
+        </a>
+      </div>
+      <p class="mb-1">
+        <a href="#">Olvidé mi contraseña</a>
+      </p>
+      <p class="mb-0">
+        <a href="#" class="text-center">Registrar un nuevo usuario</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+{% include 'dashboard/scripts.html' %}
+</body>
+</html>
