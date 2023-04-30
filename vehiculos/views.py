@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Vehiculo
 from .forms import VehiculoForm
-
+from django.contrib.auth.decorators import login_required
 
 """ def lista_vehiculos(request):
     vehiculos = Vehiculo.objects.all().order_by('placa')
@@ -17,7 +17,7 @@ from .forms import VehiculoForm
 
 from django.core.paginator import Paginator
 
-
+@login_required
 def lista_vehiculos(request):
     vehiculos = Vehiculo.objects.all().order_by('placa')
     regionales = set(vehiculos.values_list('regional', flat=True))
@@ -47,7 +47,7 @@ def lista_vehiculos(request):
 
 
 
-
+@login_required
 def agregar_vehiculo(request):
     if request.method == 'POST':
         form = VehiculoForm(request.POST)
@@ -60,12 +60,13 @@ def agregar_vehiculo(request):
     return render(request, 'vehiculos/agregar_vehiculo.html', 
                   {'form': form})
 
+@login_required
 def eliminar_vehiculo(request, vehiculo_id):
     vehiculo = get_object_or_404(Vehiculo, id=vehiculo_id)
     vehiculo.delete()
     return redirect('lista_vehiculos')
 
-
+@login_required
 def editar_vehiculo(request, vehiculo_id):
     vehiculo = get_object_or_404(Vehiculo, id=vehiculo_id)
     if request.method == 'POST':

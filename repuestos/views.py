@@ -2,8 +2,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Repuesto
 from .forms import RepuestoForm
+from django.contrib.auth.decorators import login_required
 
 #Vista para poder todos los repuestos
+@login_required
 def lista_repuestos(request):
     query = request.GET.get('q')
     if query:
@@ -16,6 +18,7 @@ def lista_repuestos(request):
 
 
 #Agregar nuevos repuestos
+@login_required
 def agregar_repuesto(request):
     if request.method == 'POST':
         form = RepuestoForm(request.POST)
@@ -28,6 +31,7 @@ def agregar_repuesto(request):
                   {'form': form})
 
 #Editar los repuestos agregados
+@login_required
 def editar_repuesto(request, repuesto_id):
     repuesto = get_object_or_404(Repuesto, id=repuesto_id)
     if request.method == 'POST':
@@ -41,6 +45,7 @@ def editar_repuesto(request, repuesto_id):
                   {'form': form, 'repuesto': repuesto})
 
 #Eliminar los repuestos
+@login_required
 def eliminar_repuesto(request, repuesto_id):
     repuesto = get_object_or_404(Repuesto, id=repuesto_id)
     if request.method == 'POST':
