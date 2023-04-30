@@ -9,25 +9,61 @@
 {% block content %}
 <div class="container">
   <h1>Agregar Mantenimiento</h1>
+
+
   <form method="post">
     {% csrf_token %}
-    <div class="form-group mb-3">
-      <label for="{{ form.placa.id_for_label }}" class="form-label">Placa:</label>
-      {{ form.placa }}
+  
+    <div class="form-group row mb-3">
+      <label for="{{ form.placa.id_for_label }}" class="col-sm-2 col-form-label">Placa</label>
+      <div class="col-sm-12">
+        <select class="form-control" id="{{ form.placa.id_for_label }}" name="{{ form.placa.name }}">
+          <option value="">Seleccione el Vehículo</option>
+          {% if form.placa.field.queryset.count > 0 %}
+            {% for placa in form.placa.field.queryset %}
+              <option value="{{ placa.pk }}" {% if form.placa.value == placa.pk %}selected{% endif %}>
+                {{ placa.placa }}
+              </option>
+            {% endfor %}
+          {% else %}
+            <option value="">No hay placas disponibles</option>
+          {% endif %}
+        </select>
+      </div>
     </div>
-    <div class="form-group mb-3">
-      <label for="{{ form.tipo.id_for_label }}">Tipo:</label>
-      {{ form.tipo }}
+    
+    <div class="form-group row mb-3">
+        <label for="{{ form.tipo.id_for_label }}" class="col-sm-2 col-form-label">Tipo:</label>
+        <div class="col-sm-12">
+          {{ form.tipo }}
+        </div>
     </div>
-    <div class="form-group mb-3">
-      <label for="{{ form.proveedores.id_for_label }}">Proveedores:</label>
-      {{ form.proveedores }}
-      
+
+    <div class="form-group row mb-3">
+      <label for="{{ form.proveedores.id_for_label }}" class="col-sm-2 col-form-label">Proveedores</label>
+      <div class="col-sm-12">
+        <select class="form-control" id="{{ form.proveedores.id_for_label }}" 
+                name="{{ form.proveedores.name }}[]" multiple size="6">
+          {% if proveedores %}
+            {% for proveedor in proveedores %}
+              <option value="{{ proveedor.id }}">{{ proveedor.nombre }}</option>
+            {% endfor %}
+          {% else %}
+            <option value="">No hay proveedores disponibles</option>
+          {% endif %}
+        </select>
+      </div>
     </div>
-    <div class="form-group mb-3">
-      <label for="{{ form.ot.id_for_label }}">OT:</label>
-      {{ form.ot }}
+  
+    <div class="form-group row mb-3">
+      <label for="{{ form.OT.id_for_label }}" class="col-sm-2 col-form-label">OT:</label>
+      <div class="col-sm-12">
+        <input type="text" class="form-control" id="{{ form.OT.id_for_label }}" 
+              name="{{ form.OT.name }}" value="{{ form.OT.value | default:'' }}" 
+              oninput="this.value = this.value.toUpperCase()">
+      </div>
     </div>
+
     <div class="form-group mb-3">
       <label for="{{ form.os.id_for_label }}">OS:</label>
       {{ form.os }}

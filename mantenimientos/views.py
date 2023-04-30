@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Mantenimiento
+from proveedores.models import Proveedor
 from .forms import MantenimientoForm, RepuestoMantenimientoForm
 #from django.forms import inlineformset_factory
 
@@ -11,6 +12,27 @@ def lista_mantenimientos(request):
 
 #Agregar un nuevo mantenimiento
 def agregar_mantenimiento(request):
+    # Obtener los proveedores disponibles
+    proveedores = Proveedor.objects.all()
+
+    if request.method == 'POST':
+        form = MantenimientoForm(request.POST)
+        if form.is_valid():
+            mantenimiento = form.save()
+            print('Mantenimiento guardado')
+            return redirect('lista_mantenimientos')
+        else:
+            print('Datos inválidos')
+    else:
+        form = MantenimientoForm()
+
+    context = {
+        'form': form,
+        'proveedores': proveedores,
+    }
+    print('Renderizando el formulario')
+    return render(request, 'mantenimientos/agregar_mantenimiento.html', context)
+""" def agregar_mantenimiento(request):
     if request.method == 'POST':
         form = MantenimientoForm(request.POST)
         if form.is_valid():
@@ -26,7 +48,7 @@ def agregar_mantenimiento(request):
         'form': form,
     }
     print('Renderizando el formulario')
-    return render(request, 'mantenimientos/agregar_mantenimiento.html', context)
+    return render(request, 'mantenimientos/agregar_mantenimiento.html', context) """
 
 #Editar el mantenimiento
 def editar_mantenimiento(request, pk):
