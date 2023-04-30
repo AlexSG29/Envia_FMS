@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+""" from django.shortcuts import render, redirect
 from .forms import RegisterForm
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
@@ -26,4 +26,4 @@ def registro(request):
     return render(request, 'cuenta/registro.html', {'form': form})
 
 def registro_existoso(request):
-    return render(request,'cuenta/registro_exitoso.html')
+    return render(request,'cuenta/registro_exitoso.html') """

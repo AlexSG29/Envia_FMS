@@ -1,7 +1,8 @@
-from django.urls import path
+""" from django.urls import path
 from . import views
 
 urlpatterns = [
     path('registro/', views.registro, name='registro'),
     path('registro-exitoso/', views.registro_existoso, name='registro_exitoso'),
 ]
+ """

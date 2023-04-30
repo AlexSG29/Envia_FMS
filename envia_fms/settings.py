@@ -135,6 +135,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = 'login'
+SESSION_COOKIE_AGE = 604800
 
 """ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
