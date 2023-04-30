@@ -39,8 +39,8 @@
           <i class="fas fa-user"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="account-dropdown">
-          <a class="dropdown-item" href="#">Cuenta</a>
-          <a class="dropdown-item" href="#">Configuración</a>
+          <a class="dropdown-item" href="{% url 'perfil' %}">Cuenta</a>
+          <a class="dropdown-item" href="{% url 'configuracion' %}">Configuración</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesión</a>
         </div>

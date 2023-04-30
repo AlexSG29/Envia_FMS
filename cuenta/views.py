@@ -1,3 +1,14 @@
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def perfil(request):
+    return render(request, 'cuenta/perfil.html')
+
+@login_required
+def configuracion(request):
+    return render(request, 'cuenta/configuracion.html')
+
 """ from django.shortcuts import render, redirect
 from .forms import RegisterForm
 from django.contrib.auth import authenticate, login
