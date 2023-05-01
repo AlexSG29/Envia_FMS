@@ -1,4 +1,5 @@
 {% extends 'dashboard/layout.html' %}
+{% load static %}
 
 {% block head %}
   {{ block.super }}
@@ -65,32 +66,50 @@
     </div>
 
     <div class="form-group mb-3">
-      <label for="{{ form.os.id_for_label }}">OS:</label>
-      {{ form.os }}
-    </div>
-    <div class="form-group mb-3">
       <label for="{{ form.fecha.id_for_label }}">Fecha:</label>
       {{ form.fecha }}
     </div>
+    
+  
+
     <div class="form-group mb-3">
       <label for="{{ form.fecha_preventivo.id_for_label }}">Fecha Preventivo:</label>
       {{ form.fecha_preventivo }}
     </div>
-    <div class="form-group mb-3">
-      <label for="{{ form.descripcion.id_for_label }}">Descripción:</label>
-      {{ form.descripcion }}
+
+    <div class="form-group row mb-3">
+      <label for="{{ form.descripcion.id_for_label }}" class="col-sm-2 col-form-label">Descripcion:</label>
+      <div class="col-sm-12">
+        <textarea class="form-control" id="{{ form.descripcion.id_for_label }}" 
+              name="{{ form.descripcion.name }}">{{ form.descripcion.value | default:'' }}</textarea>
+      </div>
     </div>
-    <div class="form-group mb-3">
-      <label for="{{ form.estado.id_for_label }}">Estado:</label>
-      {{ form.estado }}
+
+    <div class="form-group row mb-3">
+      <div class="col-sm-12">
+        <div class="custom-control custom-checkbox">
+          <input class="custom-control-input" type="checkbox" id="{{ form.os.id_for_label }}" name="{{ form.os.name }}" 
+                  {% if form.os.value %}checked{% endif %}>
+          <label class="custom-control-label" for="{{ form.os.id_for_label }}">Orden de Servicio</label>
+        </div>
+      </div>
     </div>
+    <div class="form-group row mb-3">
+      <div class="col-sm-12">
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="{{ form.estado.id_for_label }}" name="{{ form.estado.name }}" {% if form.estado.value %}checked{% endif %}>
+          <label class="custom-control-label" for="{{ form.estado.id_for_label }}">Estado</label>
+        </div>
+      </div>
+    </div>
+    
     <div class="form-group mt-3">
       <button type="submit" class="btn btn-primary me-3" title="Agregar Mantenimiento">Agregar</button>
       <a href="{% url 'lista_mantenimientos' %}" class="btn btn-outline-secondary" title="Cancelar">Cancelar</a>
     </div>
+
   </form>
 </div>
-{% endblock %}
 
 
  <!-- templates/agregar_proveedor.html -->
