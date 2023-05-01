@@ -9,14 +9,14 @@
 
 {% block content %}
 <div class="container">
-  <h1>Agregar Mantenimiento</h1>
+  <h1 class="mb-4">Agregar Mantenimiento</h1>
 
 
   <form method="post">
     {% csrf_token %}
   
     <div class="form-group row mb-3">
-      <label for="{{ form.placa.id_for_label }}" class="col-sm-2 col-form-label">Placa</label>
+      <label for="{{ form.placa.id_for_label }}" class="col-sm-2 col-form-label">* Placa:</label>
       <div class="col-sm-12">
         <select class="form-control" id="{{ form.placa.id_for_label }}" name="{{ form.placa.name }}">
           <option value="">Seleccione el Vehículo</option>
@@ -41,7 +41,7 @@
     </div>
 
     <div class="form-group row mb-3">
-      <label for="{{ form.proveedores.id_for_label }}" class="col-sm-2 col-form-label">Proveedores</label>
+      <label for="{{ form.proveedores.id_for_label }}" class="col-sm-2 col-form-label">Proveedores:</label>
       <div class="col-sm-12">
         <select class="form-control" id="{{ form.proveedores.id_for_label }}" 
                 name="{{ form.proveedores.name }}[]" multiple size="6">
@@ -65,16 +65,21 @@
       </div>
     </div>
 
-    <div class="form-group mb-3">
-      <label for="{{ form.fecha.id_for_label }}">Fecha:</label>
-      {{ form.fecha }}
+    
+    <div class="form-group row mb-3">
+      <div class="col-sm-12">
+        <label for="{{ form.fecha.id_for_label }}">* Fecha:</label>
+        <input type="date" class="form-control" id="{{ form.fecha.id_for_label }}" 
+              name="{{ form.fecha.name }}" value="{{ form.fecha.value }}">
+      </div>
     </div>
     
-  
-
-    <div class="form-group mb-3">
-      <label for="{{ form.fecha_preventivo.id_for_label }}">Fecha Preventivo:</label>
-      {{ form.fecha_preventivo }}
+    <div class="form-group row mb-3">
+      <div class="col-sm-12">
+        <label for="{{ form.fecha_preventivo.id_for_label }}">Fecha Preventivo:</label>
+        <input type="date" class="form-control" id="{{ form.fecha_preventivo.id_for_label }}" 
+              name="{{ form.fecha_preventivo.name }}" value="{{ form.fecha_preventivo.value }}">
+      </div>
     </div>
 
     <div class="form-group row mb-3">
@@ -111,29 +116,4 @@
   </form>
 </div>
 
-
- <!-- templates/agregar_proveedor.html -->
-
-
-{% comment %} {% extends 'dashboard/layout.html' %}
-
-{% block head %}
-  {{ block.super }}
 {% endblock %}
-
-{% block title %}Agregar Mantenimiento{% endblock %}
-
-{% block content %}
-  <div class="container">
-    <h1>Agregar Mantenimiento</h1>
-    <form method="post">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <div class="mt-3">
-        <button type="submit" class="btn btn-primary me-3">Agregar</button>
-        <a href="{% url 'lista_mantenimientos' %}" class="btn btn-secondary">Cancelar</a>
-      </div>
-    </form>
-  </div>
-{% endblock %}
- {% endcomment %}
