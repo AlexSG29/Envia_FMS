@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'proveedores',
     'repuestos',
     'cronograma',
-    'tempus_dominus', #Para seleccion de fechas y formatos
+    
 
 ]
 
@@ -131,9 +131,6 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-#TEMPUS-DOMINUS
-TEMPUS_DOMINUS_DATE_FORMAT = 'DD-MM-YYYY'
 
 #AUTENTICACION DE USUARIO
 

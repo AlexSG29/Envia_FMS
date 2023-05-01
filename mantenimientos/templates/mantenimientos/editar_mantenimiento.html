@@ -1,4 +1,152 @@
 {% extends 'dashboard/layout.html' %}
+{% load static %}
+
+{% block head %}
+  {{ block.super }}
+{% endblock %}
+
+{% block title %}Editar Mantenimiento{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h1 class="mb-4">Editar Mantenimiento</h1>
+
+  <form method="post">
+    {% csrf_token %}
+  
+    <div class="form-group row mb-3">
+      <label for="{{ form.placa.id_for_label }}" class="col-sm-2 col-form-label">* Placa:</label>
+      <div class="col-sm-12">
+        <select class="form-control" id="{{ form.placa.id_for_label }}" name="{{ form.placa.name }}">
+          <option value="">Seleccione el Vehículo</option>
+          {% if form.placa.field.queryset.count > 0 %}
+            {% for placa in form.placa.field.queryset %}
+              <option value="{{ placa.pk }}" {% if mantenimiento.placa.pk == placa.pk %}selected{% endif %}>
+                {{ placa.placa }}
+              </option>
+            {% endfor %}
+          {% else %}
+            <option value="">No hay placas disponibles</option>
+          {% endif %}
+        </select>
+      </div>
+    </div>
+    
+    <div class="form-group row mb-3">
+        <label for="{{ form.tipo.id_for_label }}" class="col-sm-2 col-form-label">Tipo:</label>
+        <div class="col-sm-12">
+          {{ form.tipo }}
+        </div>
+    </div>
+
+    <div class="form-group row mb-3">
+      <label for="{{ form.proveedores.id_for_label }}" class="col-sm-2 col-form-label">Proveedores:</label>
+      <div class="col-sm-12">
+        <select class="form-control" id="{{ form.proveedores.id_for_label }}" 
+                name="{{ form.proveedores.name }}[]" multiple size="6">
+          {% if proveedores %}
+            {% for proveedor in proveedores %}
+              <option value="{{ proveedor.id }}" {% if proveedor in mantenimiento.proveedores.all %}selected{% endif %}>{{ proveedor.nombre }}</option>
+            {% endfor %}
+          {% else %}
+            <option value="">No hay proveedores disponibles</option>
+          {% endif %}
+        </select>
+
+      </div>
+    </div>
+    
+  
+    <div class="form-group row mb-3">
+      <label for="{{ form.OT.id_for_label }}" class="col-sm-2 col-form-label">OT:</label>
+      <div class="col-sm-12">
+        <input type="text" class="form-control" id="{{ form.OT.id_for_label }}" 
+              name="{{ form.OT.name }}" value="{{ mantenimiento.OT }}" 
+              oninput="this.value = this.value.toUpperCase()">
+      </div>
+    </div>
+
+    <div class="form-group row mb-3">
+      <div class="col-sm-12">
+        <label for="{{ form.fecha.id_for_label }}">* Fecha:</label>
+        <input type="date" class="form-control" id="{{ form.fecha.id_for_label }}" 
+      name="{{ form.fecha.name }}" value="{{ form.fecha.value|date:"Y-m-d" }}">
+
+      </div>
+    </div>
+    
+    <div class="form-group row mb-3">
+      <div class="col-sm-12">
+        <label for="{{ form.fecha_preventivo.id_for_label }}">Fecha Preventivo:</label>
+        <input type="date" class="form-control" id="{{ form.fecha_preventivo.id_for_label }}" 
+              name="{{ form.fecha_preventivo.name }}" value="{{ form.fecha_preventivo.value|date:"Y-m-d" }}">
+      </div>
+    </div>
+    
+    
+
+    <div class="form-group row mb-3">
+      <label for="{{ form.descripcion.id_for_label }}" class="col-sm-2 col-form-label">Descripcion:</label>
+      <div class="col-sm-12">
+        <textarea class="form-control" id="{{ form.descripcion.id_for_label }}" 
+              name="{{ form.descripcion.name }}">{{ mantenimiento.descripcion }}</textarea>
+      </div>
+    </div>
+
+    <div class="form-group row mb-3">
+      <div class="col-sm-12">
+        <div class="custom-control custom-checkbox">
+          <input class="custom-control-input" type="checkbox" id="{{ form.os.id_for_label }}" name="{{ form.os.name }}" 
+                  {% if mantenimiento.os %}checked{% endif %}>
+          <label class="custom-control-label" for="{{ form.os.id_for_label }}">Orden de Servicio</label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group row mb-3">
+      <div class="col-sm-12">
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="{{ form.estado.id_for_label }}" name="{{ form.estado.name }}" {% if mantenimiento.estado %}checked{% endif %}>
+          <label class="custom-control-label" for="{{ form.estado.id_for_label }}">Estado</label>
+        </div>
+      </div>
+    </div>
+    
+    <div class="form-group mt-3">
+      <button type="submit" class="btn btn-primary me-3" title="Editar Mantenimiento">Editar</button>
+      <a href="{% url 'lista_mantenimientos' %}" class="btn btn-outline-secondary" title="Cancelar">Cancelar</a>
+    </div>
+
+  </form>
+
+</div>
+<script>
+  // Define la variable JavaScript form con el valor del id de estado
+  const form = { estado: { id_for_label: "{{ form.estado.id_for_label }}" } };
+
+  // Obtiene el checkbox y el label correspondiente
+  const checkbox = document.getElementById(form.estado.id_for_label);
+  const label = document.querySelector(`label[for='${form.estado.id_for_label}']`);
+
+  // Define una función para actualizar el texto del label
+  function actualizarEstado() {
+    if (checkbox.checked) {
+      label.innerText = "Activo";
+    } else {
+      label.innerText = "Inactivo";
+    }
+  }
+  // Llama la función una vez para inicializar el label
+  actualizarEstado();
+  // Agrega un listener al checkbox para actualizar el label al cambiar su estado
+  checkbox.addEventListener("change", actualizarEstado);
+</script>
+
+
+{% endblock %}
+
+
+
+{% comment %} {% extends 'dashboard/layout.html' %}
 
 {% block head %}
   {{ block.super }}
@@ -11,10 +159,10 @@
 {% block content %}
   <div class="container">
     <h1>Editar Mantenimiento</h1>
-    <form method="post">
+    <form method="post"> 
       {% csrf_token %}
       {{ form.as_p }}
       <button type="submit">Guardar Cambios</button>
     </form>
   </div>
-{% endblock %}
+{% endblock %} {% endcomment %}

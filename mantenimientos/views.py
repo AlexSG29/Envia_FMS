@@ -32,26 +32,10 @@ def agregar_mantenimiento(request):
     }
     print('Renderizando el formulario')
     return render(request, 'mantenimientos/agregar_mantenimiento.html', context)
-""" def agregar_mantenimiento(request):
-    if request.method == 'POST':
-        form = MantenimientoForm(request.POST)
-        if form.is_valid():
-            mantenimiento = form.save()
-            print('Mantenimiento guardado')
-            return redirect('lista_mantenimientos')
-        else:
-            print('Datos inválidos')
-    else:
-        form = MantenimientoForm()
 
-    context = {
-        'form': form,
-    }
-    print('Renderizando el formulario')
-    return render(request, 'mantenimientos/agregar_mantenimiento.html', context) """
 
 #Editar el mantenimiento
-def editar_mantenimiento(request, pk):
+""" def editar_mantenimiento(request, pk):
     mantenimiento = get_object_or_404(Mantenimiento, pk=pk)
     if request.method == 'POST':
         form = MantenimientoForm(request.POST, instance=mantenimiento)
@@ -62,7 +46,24 @@ def editar_mantenimiento(request, pk):
         form = MantenimientoForm(instance=mantenimiento)
     return render(request, 'mantenimientos/editar_mantenimiento.html', 
                   {'form': form, 
-                   'mantenimiento': mantenimiento})
+                   'mantenimiento': mantenimiento}) """
+
+#Editar el mantenimiento
+def editar_mantenimiento(request, pk):
+    mantenimiento = get_object_or_404(Mantenimiento, pk=pk)
+    proveedores = Proveedor.objects.all()
+    if request.method == 'POST':
+        form = MantenimientoForm(request.POST, instance=mantenimiento)
+        if form.is_valid():
+            form.save()
+            return redirect('lista_mantenimientos')
+    else:
+        form = MantenimientoForm(instance=mantenimiento)
+    return render(request, 'mantenimientos/editar_mantenimiento.html', 
+                  {'form': form, 
+                   'mantenimiento': mantenimiento,
+                   'proveedores': proveedores})
+
 
 #Eliminar un mantenimiento
 def eliminar_mantenimiento(request, pk):
@@ -86,8 +87,6 @@ def ver_repuestos(request, mantenimiento_id):
 # Agregar repuestos a ese mantenimiento
 from django.contrib import messages
 
-
-from django.contrib import messages
 
 def agregar_repuestos(request, mantenimiento_id):
     mantenimiento = get_object_or_404(Mantenimiento, pk=mantenimiento_id)
