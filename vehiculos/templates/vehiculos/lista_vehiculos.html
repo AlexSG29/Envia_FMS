@@ -6,117 +6,116 @@
   <div class="container">
     <h1 class="mb-4">Lista de vehículos</h1>
   
-  <div class="d-flex mb-4">
-    <a href="{% url 'agregar_vehiculo' %}" class="mr-4 align-self-center">
-      <i class="bi bi-plus-square fa-2x"></i> <!-- Icono de agregar repuesto -->
-    </a>
-    <form action="{% url 'lista_vehiculos' %}" method="GET" class="form-inline">
-      <div class="form-group mb-2 mr-3">
-        <label for="regional" class="sr-only">Regional:</label>
-        <select class="form-control" id="regional" name="regional">
-          <option value="" >Todas las regionales</option>
-          {% for r in regionales %}
-          <option value="{{ r }}">{{ r }}</option>
-          {% endfor %}
-        </select>
-      </div>
-      <div class="form-group mb-2 mr-3">
-        <label for="tipo" class="sr-only">Tipo:</label>
-        <select class="form-control" id="tipo" name="tipo">
-          <option value="">Todos los tipos</option>
-          {% for t in tipos %}
-          <option value="{{ t }}">{{ t }}</option>
-          {% endfor %}
-        </select>
-      </div>
-      <button type="submit" class="btn btn-primary mb-2">Filtrar</button>
-    </form>
-  </div>
-
-  <div class="table-responsive">
-    <div class="col-md-12">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Placa</th>
-            <th class="text-center">Tipo</th>
-            <th class="text-center">Marca</th>
-            <th class="text-center">Modelo</th>
-            <th class="text-center">Año</th>
-            <th class="text-center">Regional</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        
-        <tbody>
-          {% for vehiculo in page_obj %}
-            <tr>
-              <td>{{ vehiculo.placa }}</td>
-              <td class="text-center">{{ vehiculo.tipo }}</td>
-              <td class="text-center">{{ vehiculo.marca }}</td>
-              <td class="text-center">{{ vehiculo.modelo }}</td>
-              <td class="text-center">{{ vehiculo.anio }}</td>
-              <td class="text-center">{{ vehiculo.regional }}</td>
-              <td class="d-inline-flex">
-                <a href="{% url 'editar_vehiculo' vehiculo.id %}" class="btn btn-sm btn-link">
-                  <i class="bi bi-pencil-square"></i> <!-- Icono de editar -->
-                </a>
-                <form method="post" action="{% url 'eliminar_vehiculo' vehiculo.id %}">
-                  {% csrf_token %}
-                  <button type="submit" class="btn btn-sm btn-link" 
-                        onclick="return confirm('¿Estás seguro de que deseas eliminar este vehículo?')">
-                        <i class="bi bi-trash"></i> <!-- Icono de eliminar -->
-                  </button>
-                </form>
-              </td>
-            </tr>
-          {% empty %}
-            <tr>
-              <td colspan="7">No hay vehículos registrados</td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-      
+    <div class="d-flex mb-4">
+      <a href="{% url 'agregar_vehiculo' %}" class="mr-4 align-self-center">
+        <i class="bi bi-plus-square fa-2x"></i> <!-- Icono de agregar repuesto -->
+      </a>
+      <form action="{% url 'lista_vehiculos' %}" method="GET" class="form-inline">
+        <div class="form-group mb-2 mr-3">
+          <label for="regional" class="sr-only">Regional:</label>
+          <select class="form-control" id="regional" name="regional">
+            <option value="" >Todas las regionales</option>
+            {% for r in regionales %}
+            <option value="{{ r }}">{{ r }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group mb-2 mr-3">
+          <label for="tipo" class="sr-only">Tipo:</label>
+          <select class="form-control" id="tipo" name="tipo">
+            <option value="">Todos los tipos</option>
+            {% for t in tipos %}
+            <option value="{{ t }}">{{ t }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">Filtrar</button>
+      </form>
     </div>
-  </div>
 
-  <!-- Paginacion de la tabla -->
-  {% if page_obj.has_other_pages %}
-    <div class="pagination-container d-flex justify-content-center">
-        <span class="step-links">
-            {% if page_obj.has_previous %}
-                <a href="?page=1{% if request.GET.regional %}&regional={{ request.GET.regional }}
-                                {% endif %}
-                                {% if request.GET.tipo %}&tipo={{ request.GET.tipo }}
-                                {% endif %}"><i class="bi bi-chevron-double-left" style="font-size: 1.2rem;"></i>
-                </a>
-                <a href="?page={{ page_obj.previous_page_number }}
-                                {% if request.GET.regional %}&regional={{ request.GET.regional }}
-                                {% endif %}{% if request.GET.tipo %}&tipo={{ request.GET.tipo }}
-                                {% endif %}"><i class="bi bi-chevron-left" style="font-size: 1.2rem;"></i>
-                </a>
-            {% endif %}
-
-            <span class="current-page">
-              {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
-            </span>
-
-            {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}
-                                {% if request.GET.regional %}&regional={{ request.GET.regional }}
-                                {% endif %}{% if request.GET.tipo %}&tipo={{ request.GET.tipo }}
-                                {% endif %}"><i class="bi bi-chevron-right" style="font-size: 1.2rem;"></i>
-                </a>
-                <a href="?page={{ page_obj.paginator.num_pages }}
-                                {% if request.GET.regional %}&regional={{ request.GET.regional }}
-                                {% endif %}{% if request.GET.tipo %}&tipo={{ request.GET.tipo }}
-                                {% endif %}"><i class="bi bi-chevron-double-right" style="font-size: 1.2rem;"></i>
-                </a>
-            {% endif %}
-        </span>
+    <div class="table-responsive">
+      <div class="col-md-12">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Placa</th>
+              <th class="text-center">Tipo</th>
+              <th class="text-center">Marca</th>
+              <th class="text-center">Modelo</th>
+              <th class="text-center">Año</th>
+              <th class="text-center">Regional</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          
+          <tbody>
+            {% for vehiculo in page_obj %}
+              <tr>
+                <td>{{ vehiculo.placa }}</td>
+                <td class="text-center">{{ vehiculo.tipo }}</td>
+                <td class="text-center">{{ vehiculo.marca }}</td>
+                <td class="text-center">{{ vehiculo.modelo }}</td>
+                <td class="text-center">{{ vehiculo.anio }}</td>
+                <td class="text-center">{{ vehiculo.regional }}</td>
+                <td class="d-inline-flex">
+                  <a href="{% url 'editar_vehiculo' vehiculo.id %}" class="btn btn-sm btn-link">
+                    <i class="bi bi-pencil-square"></i> <!-- Icono de editar -->
+                  </a>
+                  <form method="post" action="{% url 'eliminar_vehiculo' vehiculo.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm btn-link" 
+                          onclick="return confirm('¿Estás seguro de que deseas eliminar este vehículo?')">
+                          <i class="bi bi-trash"></i> <!-- Icono de eliminar -->
+                    </button>
+                  </form>
+                </td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="7">No hay vehículos registrados</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
-  {% endif %}
+
+    <!-- Paginacion de la tabla -->
+    {% if page_obj.has_other_pages %}
+      <div class="pagination-container d-flex justify-content-center">
+          <span class="step-links">
+              {% if page_obj.has_previous %}
+                  <a href="?page=1{% if request.GET.regional %}&regional={{ request.GET.regional }}
+                                  {% endif %}
+                                  {% if request.GET.tipo %}&tipo={{ request.GET.tipo }}
+                                  {% endif %}"><i class="bi bi-chevron-double-left" style="font-size: 1.2rem;"></i>
+                  </a>
+                  <a href="?page={{ page_obj.previous_page_number }}
+                                  {% if request.GET.regional %}&regional={{ request.GET.regional }}
+                                  {% endif %}{% if request.GET.tipo %}&tipo={{ request.GET.tipo }}
+                                  {% endif %}"><i class="bi bi-chevron-left" style="font-size: 1.2rem;"></i>
+                  </a>
+              {% endif %}
+
+              <span class="current-page">
+                {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+              </span>
+
+              {% if page_obj.has_next %}
+                  <a href="?page={{ page_obj.next_page_number }}
+                                  {% if request.GET.regional %}&regional={{ request.GET.regional }}
+                                  {% endif %}{% if request.GET.tipo %}&tipo={{ request.GET.tipo }}
+                                  {% endif %}"><i class="bi bi-chevron-right" style="font-size: 1.2rem;"></i>
+                  </a>
+                  <a href="?page={{ page_obj.paginator.num_pages }}
+                                  {% if request.GET.regional %}&regional={{ request.GET.regional }}
+                                  {% endif %}{% if request.GET.tipo %}&tipo={{ request.GET.tipo }}
+                                  {% endif %}"><i class="bi bi-chevron-double-right" style="font-size: 1.2rem;"></i>
+                  </a>
+              {% endif %}
+          </span>
+      </div>
+    {% endif %}
   </div>
 
 {% endblock %}

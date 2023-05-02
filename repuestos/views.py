@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Repuesto
 from .forms import RepuestoForm
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 
 #Vista para poder todos los repuestos
 @login_required
@@ -12,10 +13,14 @@ def lista_repuestos(request):
         repuestos = Repuesto.objects.filter(nombre__icontains=query)
     else:
         repuestos = Repuesto.objects.all()
-    return render(request, 'repuestos/lista_repuestos.html', 
-                  {'repuestos': repuestos}
-                  )
 
+    paginator = Paginator(repuestos, 15)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'repuestos/lista_repuestos.html', 
+                  {'page_obj': page_obj}
+                  )
 
 #Agregar nuevos repuestos
 @login_required

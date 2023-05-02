@@ -4,55 +4,81 @@
 {% block title %} Repuestos {% endblock title %}
 
 {% block content %}
-    <div class="container">
-        <h1 class="mb-4">Lista de repuestos</h1>
+<div class="container">
+    <h1 class="mb-4">Lista de repuestos</h1>
 
-        <div class="d-flex mb-4"> 
-            <a href="{% url 'agregar_repuesto' %}" class="mr-4 align-self-center">
-                <i class="bi bi-plus-square fa-2x"></i> <!-- Icono de agregar repuesto -->
-            </a>
-            <form class="form-inline" method="GET" action="{% url 'lista_repuestos' %}">
-                <input class="form-control mr-sm-2 w-60" type="search" name="q" 
-                        placeholder="Buscar repuestos ..." aria-label="Search">
-                <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Buscar</button>
-            </form>
-        </div>
-        
-
-        <div class="tab-content">
-            <div class="col-md-12">
-                <table class="table table-sm">
-                    <thead>
-                        <tr> 
-                            <th>Nombre</th>
-                            <th>Acciones</th>
+    <div class="d-flex mb-4"> 
+        <a href="{% url 'agregar_repuesto' %}" class="mr-4 align-self-center">
+            <i class="bi bi-plus-square fa-2x"></i> <!-- Icono de agregar repuesto -->
+        </a>
+        <form class="form-inline" method="GET" action="{% url 'lista_repuestos' %}">
+            <input class="form-control mr-sm-2 w-60" type="search" name="q" 
+                    placeholder="Buscar repuestos ..." aria-label="Search">
+            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Buscar</button>
+        </form>
+    </div>
+    <div class="tab-content">
+        <div class="col-md-12">
+            <table class="table table-sm">
+                <thead>
+                    <tr> 
+                        <th>Nombre</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for repuesto in page_obj %}
+                        <tr>
+                            <td>{{ repuesto.nombre }}</td>
+                            <td class="d-inline-flex">
+                                <a href="{% url 'editar_repuesto' repuesto.id %}" class="btn btn-sm btn-link">
+                                  <i class="bi bi-pencil-square"></i> <!-- Icono de editar -->
+                                </a>
+                                <form method="post" action="{% url 'eliminar_repuesto' repuesto.id %}">
+                                  {% csrf_token %}
+                                  <button type="submit" class="btn btn-sm btn-link" 
+                                        onclick="return confirm('¿Estás seguro de que deseas eliminar este repuesto?')">
+                                        <i class="bi bi-trash"></i> <!-- Icono de eliminar -->
+                                  </button>
+                                </form>
+                              </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        {% for repuesto in repuestos %}
-                            <tr>
-                                <td>{{ repuesto.nombre }}</td>
-                                <td class="d-inline-flex">
-                                    <a href="{% url 'editar_repuesto' repuesto.id %}" class="btn btn-sm btn-link">
-                                      <i class="bi bi-pencil-square"></i> <!-- Icono de editar -->
-                                    </a>
-                                    <form method="post" action="{% url 'eliminar_repuesto' repuesto.id %}">
-                                      {% csrf_token %}
-                                      <button type="submit" class="btn btn-sm btn-link" 
-                                            onclick="return confirm('¿Estás seguro de que deseas eliminar este vehículo?')">
-                                            <i class="bi bi-trash"></i> <!-- Icono de eliminar -->
-                                      </button>
-                                    </form>
-                                  </td>
-                            </tr>
-                        {% empty %}
-                            <tr>
-                                <td colspan="2">No hay repuestos registrados</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+                    {% empty %}
+                        <tr>
+                            <td colspan="2">No hay repuestos registrados</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
+    {% if page_obj.has_other_pages %}
+        <div class="pagination-container d-flex justify-content-center">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                <a href="?page=1{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">
+                    <i class="bi bi-chevron-double-left" style="font-size: 1.2rem;"></i>
+                </a>
+                <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">
+                    <i class="bi bi-chevron-left" style="font-size: 1.2rem;"></i>
+                </a>
+                {% endif %}
+
+                <span class="current-page">
+                    {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+                </span>
+
+                {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">
+                    <i class="bi bi-chevron-right" style="font-size: 1.2rem;"></i>
+                </a>
+                <a href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">
+                    <i class="bi bi-chevron-double-right" style="font-size: 1.2rem;"></i>
+                </a>
+                {% endif %}
+            </span>
+        </div>
+    {% endif %}
+
+</div>
 {% endblock %}

@@ -41,7 +41,6 @@ def lista_vehiculos(request):
         'regionales': regionales,
         'tipos': tipos,
     }
-
     return render(request, 'vehiculos/lista_vehiculos.html', context)
 
 
