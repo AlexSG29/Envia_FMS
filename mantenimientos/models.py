@@ -21,7 +21,7 @@ class Mantenimiento(models.Model):
     estado = models.BooleanField(default=True)
 
     def __str__(self):
-        return f"Mantenimiento {self.tipo} en {self.placa} en {self.fecha}"
+        return f"Mantenimiento {self.tipo} en {self.placa} del {self.fecha}"
     class Meta:
         ordering = ['-fecha']
 

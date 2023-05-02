@@ -50,4 +50,4 @@ def editar_proveedor(request, proveedor_id):
 @login_required
 def whatsapp(request, celular):
     url = f"https://wa.me/+57{celular}"
-    return redirect(url)
+    return redirect(url) 

@@ -1,25 +1,58 @@
 {% extends 'dashboard/layout.html' %}
 
-{% block head %}
-  {{ block.super }}
-{% endblock %}
 
-{% block title %}
-  <title>Agregar Repuesto al Mantenimiento {{ mantenimiento }}</title>
-{% endblock %}
+{% block title %}Agregar Repuestos{% endblock %}
 
 {% block content %}
   <div class="container">
-    <h1>Agregar Repuesto al Mantenimiento {{ mantenimiento }}</h1>
-    {% for message in messages_list %}
-      <div class="alert alert-{{ message.tags }}" role="alert">
-        {{ message }}
-      </div>
-    {% endfor %}
+    <h1 class="my-4">Agregar al {{ mantenimiento }}</h1>
     <form method="post">
       {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit" class="btn btn-primary">Agregar otro repuesto</button>
+
+      <div class="form-group row mb-3">
+        <label for="{{ form.repuesto.id_for_label }}" class="col-sm-2 col-form-label">Repuesto:</label>
+        <div class="col-sm-12">
+          <select class="form-control" id="{{ form.repuesto.id_for_label }}" name="{{ form.repuesto.name }}">
+            <option value="">Seleccione el Repuesto</option>
+            {% if form.repuesto.field.queryset.count > 0 %}
+              {% for repuesto in form.repuesto.field.queryset %}
+                <option value="{{ repuesto.pk }}" {% if form.repuesto.value == repuesto.pk %}selected{% endif %}>
+                  {{ repuesto.nombre }}
+                </option>
+              {% endfor %}
+            {% else %}
+              <option value="">No hay repuestos disponibles</option>
+            {% endif %}
+          </select>
+          {% if form.repuesto.errors %}
+            {% for error in form.repuesto.errors %}
+              <div class="invalid-feedback d-block">{{ error }}</div>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+      <div class="form-group row mb-3">
+        <label for="{{ form.cantidad.id_for_label }}" class="col-sm-2 col-form-label">Cantidad:</label>
+        <div class="col-sm-12">
+          <input type="number" class="form-control {% if form.cantidad.errors %}is-invalid{% endif %}" id="{{ form.cantidad.id_for_label }}" 
+                 name="{{ form.cantidad.name }}" value="{{ form.cantidad.value }}">
+          {% if form.cantidad.errors %}
+            {% for error in form.cantidad.errors %}
+              <div class="invalid-feedback d-block">{{ error }}</div>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+      <div class="form-group row mb-3">
+        <label for="{{ form.descripcion.id_for_label }}" class="col-sm-2 col-form-label">Descripcion:</label>
+        <div class="col-sm-12">
+          <textarea class="form-control" id="{{ form.descripcion.id_for_label }}" 
+                    name="{{ form.descripcion.name }}">{{ form.descripcion.value | default:'' }}</textarea>
+        </div>
+      </div>
+      
+      <button type="submit" class="btn btn-primary my-4">Agregar Repuesto</button>
+      <a href="{% url 'lista_mantenimientos' %}" class="btn btn-outline-secondary" title="Cancelar">Cancelar</a>
     </form>
   </div>
 {% endblock %}
