@@ -3,8 +3,6 @@ from .models import Mantenimiento, RepuestoMantenimiento
 from vehiculos.models import Vehiculo
 from repuestos.models import Repuesto
 
-from tempus_dominus.widgets import DatePicker #tempus-dominus-widgets
-
 class MantenimientoForm(forms.ModelForm):
     placa = forms.ModelChoiceField(queryset=Vehiculo.objects.all())
 

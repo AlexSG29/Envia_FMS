@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Mantenimiento
 from proveedores.models import Proveedor
-from vehiculos.models import Vehiculo
 from .forms import MantenimientoForm, RepuestoMantenimientoForm
 from django.contrib.auth.decorators import login_required
+#from vehiculos.models import Vehiculo
 
 
 #Para ver la lista de todos los mantenimientos
@@ -36,7 +36,8 @@ def agregar_mantenimiento(request):
         form = MantenimientoForm(request.POST)
         if form.is_valid():
             mantenimiento = form.save()
-            print('Mantenimiento guardado')
+            mantenimiento.proveedores.set(form.cleaned_data['proveedores'])
+            mantenimiento.save()
             return redirect('lista_mantenimientos')
         else:
             print('Datos inválidos')

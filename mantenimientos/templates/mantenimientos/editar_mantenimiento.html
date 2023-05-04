@@ -50,7 +50,7 @@
       <label for="{{ form.proveedores.id_for_label }}" class="col-sm-2 col-form-label">Proveedores:</label>
       <div class="col-sm-12">
         <select class="form-control" id="{{ form.proveedores.id_for_label }}" 
-                name="{{ form.proveedores.name }}[]" multiple size="6">
+                name="{{ form.proveedores.name }}" multiple size="6">
           {% if proveedores %}
             {% for proveedor in proveedores %}
               <option value="{{ proveedor.id }}" {% if proveedor in mantenimiento.proveedores.all %}selected{% endif %}>{{ proveedor.nombre }}</option>
@@ -59,7 +59,6 @@
             <option value="">No hay proveedores disponibles</option>
           {% endif %}
         </select>
-
       </div>
     </div>
     
