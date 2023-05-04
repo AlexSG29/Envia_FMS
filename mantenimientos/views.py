@@ -2,13 +2,30 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Mantenimiento
 from proveedores.models import Proveedor
 from .forms import MantenimientoForm, RepuestoMantenimientoForm
-#from django.forms import inlineformset_factory
+
 
 #Para ver la lista de todos los mantenimientos
 def lista_mantenimientos(request):
-    mantenimientos = Mantenimiento.objects.all()
+    estado = request.GET.get('estado', 'todos')
+    tipo = request.GET.get('tipo', '')
+    if estado == 'activos':
+        mantenimientos = Mantenimiento.objects.filter(estado=True)
+    elif estado == 'inactivos':
+        mantenimientos = Mantenimiento.objects.filter(estado=False)
+    else:
+        mantenimientos = Mantenimiento.objects.all()
+
+    if tipo:
+        mantenimientos = mantenimientos.filter(tipo=tipo)
+
     context = {'mantenimientos': mantenimientos}
     return render(request, 'mantenimientos/lista_mantenimientos.html', context)
+
+
+""" def lista_mantenimientos(request):
+    mantenimientos = Mantenimiento.objects.all()
+    context = {'mantenimientos': mantenimientos}
+    return render(request, 'mantenimientos/lista_mantenimientos.html', context) """
 
 #Agregar un nuevo mantenimiento
 def agregar_mantenimiento(request):
@@ -33,20 +50,6 @@ def agregar_mantenimiento(request):
     print('Renderizando el formulario')
     return render(request, 'mantenimientos/agregar_mantenimiento.html', context)
 
-
-#Editar el mantenimiento
-""" def editar_mantenimiento(request, pk):
-    mantenimiento = get_object_or_404(Mantenimiento, pk=pk)
-    if request.method == 'POST':
-        form = MantenimientoForm(request.POST, instance=mantenimiento)
-        if form.is_valid():
-            form.save()
-            return redirect('lista_mantenimientos')
-    else:
-        form = MantenimientoForm(instance=mantenimiento)
-    return render(request, 'mantenimientos/editar_mantenimiento.html', 
-                  {'form': form, 
-                   'mantenimiento': mantenimiento}) """
 
 #Editar el mantenimiento
 def editar_mantenimiento(request, pk):
