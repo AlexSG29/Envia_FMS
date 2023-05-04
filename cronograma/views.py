@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from mantenimientos.models import Mantenimiento
 from django.core.serializers.json import DjangoJSONEncoder
+from django.contrib.auth.decorators import login_required
 #from django.urls import reverse
 #from django.db.models import Q
 
@@ -27,5 +28,6 @@ def eventos_mantenimientos(request):
     return JsonResponse(eventos, safe=False, encoder=DjangoJSONEncoder, 
         json_dumps_params={'default': serialize_vehiculo})
 
+@login_required
 def cronograma(request):
     return render(request, 'cronograma/calendar.html')

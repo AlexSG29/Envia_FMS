@@ -2,19 +2,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Vehiculo
 from .forms import VehiculoForm
 from django.contrib.auth.decorators import login_required
-
-""" def lista_vehiculos(request):
-    vehiculos = Vehiculo.objects.all().order_by('placa')
-    regionales = set(vehiculos.values_list('regional', flat=True))
-    regional_filtro = request.GET.get('regional')
-    
-    if regional_filtro:
-        vehiculos = vehiculos.filter(regional=regional_filtro)
-    
-    return render(request, 'vehiculos/lista_vehiculos.html', 
-                  {'vehiculos': vehiculos,
-                   'regionales': regionales}) """
-
 from django.core.paginator import Paginator
 
 @login_required

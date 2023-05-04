@@ -2,9 +2,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Mantenimiento
 from proveedores.models import Proveedor
 from .forms import MantenimientoForm, RepuestoMantenimientoForm
+from django.contrib.auth.decorators import login_required
 
 
 #Para ver la lista de todos los mantenimientos
+@login_required
 def lista_mantenimientos(request):
     estado = request.GET.get('estado', 'todos')
     tipo = request.GET.get('tipo', '')
@@ -22,12 +24,9 @@ def lista_mantenimientos(request):
     return render(request, 'mantenimientos/lista_mantenimientos.html', context)
 
 
-""" def lista_mantenimientos(request):
-    mantenimientos = Mantenimiento.objects.all()
-    context = {'mantenimientos': mantenimientos}
-    return render(request, 'mantenimientos/lista_mantenimientos.html', context) """
 
 #Agregar un nuevo mantenimiento
+@login_required
 def agregar_mantenimiento(request):
     # Obtener los proveedores disponibles
     proveedores = Proveedor.objects.all()
@@ -52,6 +51,7 @@ def agregar_mantenimiento(request):
 
 
 #Editar el mantenimiento
+@login_required
 def editar_mantenimiento(request, pk):
     mantenimiento = get_object_or_404(Mantenimiento, pk=pk)
     proveedores = Proveedor.objects.all()
@@ -69,6 +69,7 @@ def editar_mantenimiento(request, pk):
 
 
 #Eliminar un mantenimiento
+@login_required
 def eliminar_mantenimiento(request, pk):
     mantenimiento = get_object_or_404(Mantenimiento, pk=pk)
     if request.method == 'POST':
@@ -77,6 +78,7 @@ def eliminar_mantenimiento(request, pk):
     return redirect('lista_mantenimientos')
 
 # Ver los repuestos asociados a ese mantenimiento
+@login_required
 def ver_repuestos(request, mantenimiento_id):
     mantenimiento = get_object_or_404(Mantenimiento, pk=mantenimiento_id)
     repuestos_mantenimiento = mantenimiento.repuestomantenimiento_set.all()
@@ -90,7 +92,7 @@ def ver_repuestos(request, mantenimiento_id):
 # Agregar repuestos a ese mantenimiento
 from django.contrib import messages
 
-
+@login_required
 def agregar_repuestos(request, mantenimiento_id):
     mantenimiento = get_object_or_404(Mantenimiento, pk=mantenimiento_id)
 

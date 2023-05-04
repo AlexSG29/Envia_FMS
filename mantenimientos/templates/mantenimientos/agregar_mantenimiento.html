@@ -14,8 +14,34 @@
 
   <form method="post">
     {% csrf_token %}
-  
     <div class="form-group row mb-3">
+      <label for="{{ form.placa.id_for_label }}" class="col-sm-2 col-form-label">* Placa:</label>
+      <div class="col-sm-12">
+          <input class="form-control" list="placas" id="placas-search" placeholder="Buscar por placa..."
+                oninput="this.value = this.value.toUpperCase()">
+          <datalist id="placas">
+              {% for placa in form.placa.field.queryset %}
+                <option value="{{ placa.placa }}">{{ placa.placa }}</option>
+              {% endfor %}
+          </datalist>
+          <select class="form-control mt-2" id="{{ form.placa.id_for_label }}" name="{{ form.placa.name }}" style="display:none;">
+              <option value="">Seleccione el Vehículo</option>
+              {% if form.placa.field.queryset.count > 0 %}
+                  {% for placa in form.placa.field.queryset %}
+                      <option value="{{ placa.pk }}" {% if form.placa.value == placa.pk %}selected{% endif %}>
+                          {{ placa.placa }}
+                      </option>
+                  {% endfor %}
+              {% else %}
+                  <option value="">No hay placas disponibles</option>
+              {% endif %}
+          </select>
+      </div>
+  </div>
+  
+    
+
+    {% comment %} <div class="form-group row mb-3">
       <label for="{{ form.placa.id_for_label }}" class="col-sm-2 col-form-label">* Placa:</label>
       <div class="col-sm-12">
         <select class="form-control" id="{{ form.placa.id_for_label }}" name="{{ form.placa.name }}">
@@ -31,7 +57,7 @@
           {% endif %}
         </select>
       </div>
-    </div>
+    </div> {% endcomment %}
     
     <div class="form-group row mb-3">
         <label for="{{ form.tipo.id_for_label }}" class="col-sm-2 col-form-label">Tipo:</label>
