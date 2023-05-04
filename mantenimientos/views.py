@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Mantenimiento
 from proveedores.models import Proveedor
+from vehiculos.models import Vehiculo
 from .forms import MantenimientoForm, RepuestoMantenimientoForm
 from django.contrib.auth.decorators import login_required
 
@@ -62,10 +63,25 @@ def editar_mantenimiento(request, pk):
             return redirect('lista_mantenimientos')
     else:
         form = MantenimientoForm(instance=mantenimiento)
+        form.fields['placa'].initial = mantenimiento.placa.pk
     return render(request, 'mantenimientos/editar_mantenimiento.html', 
                   {'form': form, 
                    'mantenimiento': mantenimiento,
                    'proveedores': proveedores})
+""" def editar_mantenimiento(request, pk):
+    mantenimiento = get_object_or_404(Mantenimiento, pk=pk)
+    proveedores = Proveedor.objects.all()
+    if request.method == 'POST':
+        form = MantenimientoForm(request.POST, instance=mantenimiento)
+        if form.is_valid():
+            form.save()
+            return redirect('lista_mantenimientos')
+    else:
+        form = MantenimientoForm(instance=mantenimiento)
+    return render(request, 'mantenimientos/editar_mantenimiento.html', 
+                  {'form': form, 
+                   'mantenimiento': mantenimiento,
+                   'proveedores': proveedores}) """
 
 
 #Eliminar un mantenimiento

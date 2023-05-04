@@ -13,25 +13,32 @@
 
   <form method="post">
     {% csrf_token %}
-  
+    {% if form.errors %}
+      <div class="alert alert-danger">
+          <ul>
+              {% for field in form %}
+                  {% for error in field.errors %}
+                      <li>{{ field.label }}: {{ error }}</li>
+                  {% endfor %}
+              {% endfor %}
+          </ul>
+      </div>
+    {% endif %}
+
     <div class="form-group row mb-3">
       <label for="{{ form.placa.id_for_label }}" class="col-sm-2 col-form-label">* Placa:</label>
       <div class="col-sm-12">
-        <select class="form-control" id="{{ form.placa.id_for_label }}" name="{{ form.placa.name }}">
-          <option value="">Seleccione el Vehículo</option>
-          {% if form.placa.field.queryset.count > 0 %}
-            {% for placa in form.placa.field.queryset %}
-              <option value="{{ placa.pk }}" {% if mantenimiento.placa.pk == placa.pk %}selected{% endif %}>
-                {{ placa.placa }}
-              </option>
-            {% endfor %}
-          {% else %}
-            <option value="">No hay placas disponibles</option>
-          {% endif %}
-        </select>
+          <input class="form-control" list="placas" id="placas-search" name="{{ form.placa.name }}" 
+                value="{{ mantenimiento.placa.pk }}" placeholder="Buscar por placa...">
+
+          <datalist id="placas">
+              {% for placa in form.placa.field.queryset %}
+                  <option value="{{ placa.placa }}" data-pk="{{ placa.pk }}">{{ placa.placa }}</option>
+              {% endfor %}
+          </datalist>
       </div>
     </div>
-    
+
     <div class="form-group row mb-3">
         <label for="{{ form.tipo.id_for_label }}" class="col-sm-2 col-form-label">Tipo:</label>
         <div class="col-sm-12">
@@ -139,6 +146,21 @@
   actualizarEstado();
   // Agrega un listener al checkbox para actualizar el label al cambiar su estado
   checkbox.addEventListener("change", actualizarEstado);
+
+
+  // ---------- PARA BUSCAR PLACAS ---------- // 
+  var input = document.getElementById('placas-search');
+  var select = document.getElementById('{{ form.placa.id_for_label }}');
+
+  input.addEventListener('input', function() {
+    // Buscar la opción en el datalist que corresponde al valor del input
+    var option = document.querySelector('#placas option[value="' + this.value + '"]');
+
+    // Si se encontró la opción, actualizar el valor del select
+    if (option) {
+      select.value = option.getAttribute('data-pk');
+    }
+  });
 </script>
 
 

@@ -14,16 +14,28 @@
 
   <form method="post">
     {% csrf_token %}
+    {% if form.errors %}
+      <div class="alert alert-danger">
+          <ul>
+              {% for field in form %}
+                  {% for error in field.errors %}
+                      <li>{{ field.label }}: {{ error }}</li>
+                  {% endfor %}
+              {% endfor %}
+          </ul>
+      </div>
+    {% endif %}
+
     <div class="form-group row mb-3">
       <label for="{{ form.placa.id_for_label }}" class="col-sm-2 col-form-label">* Placa:</label>
       <div class="col-sm-12">
-          <input class="form-control" list="placas" id="placas-search" placeholder="Buscar por placa..."
-                oninput="this.value = this.value.toUpperCase()">
+          <input class="form-control" list="placas" id="placas-search" placeholder="Buscar por placa...">
           <datalist id="placas">
-              {% for placa in form.placa.field.queryset %}
-                <option value="{{ placa.placa }}">{{ placa.placa }}</option>
-              {% endfor %}
+            {% for placa in form.placa.field.queryset %}
+            <option value="{{ placa.placa }}" data-pk="{{ placa.pk }}">{{ placa.placa }}</option>
+            {% endfor %}
           </datalist>
+          
           <select class="form-control mt-2" id="{{ form.placa.id_for_label }}" name="{{ form.placa.name }}" style="display:none;">
               <option value="">Seleccione el Vehículo</option>
               {% if form.placa.field.queryset.count > 0 %}
@@ -37,10 +49,8 @@
               {% endif %}
           </select>
       </div>
-  </div>
+    </div>
   
-    
-
     {% comment %} <div class="form-group row mb-3">
       <label for="{{ form.placa.id_for_label }}" class="col-sm-2 col-form-label">* Placa:</label>
       <div class="col-sm-12">
@@ -137,11 +147,11 @@
       <button type="submit" class="btn btn-primary me-3" title="Agregar Mantenimiento">Agregar</button>
       <a href="{% url 'lista_mantenimientos' %}" class="btn btn-outline-secondary" title="Cancelar">Cancelar</a>
     </div>
-
   </form>
 </div>
 
 <script>
+  // ---------- PARA FILTRAR ---------- // 
   // Define la variable JavaScript form con el valor del id de estado
   const form = { estado: { id_for_label: "{{ form.estado.id_for_label }}" } };
 
@@ -161,6 +171,20 @@
   actualizarEstado();
   // Agrega un listener al checkbox para actualizar el label al cambiar su estado
   checkbox.addEventListener("change", actualizarEstado);
+
+  // ---------- PARA BUSCAR PLACAS ---------- // 
+  var input = document.getElementById('placas-search');
+  var select = document.getElementById('{{ form.placa.id_for_label }}');
+
+  input.addEventListener('input', function() {
+    // Buscar la opción en el datalist que corresponde al valor del input
+    var option = document.querySelector('#placas option[value="' + this.value + '"]');
+
+    // Si se encontró la opción, actualizar el valor del select
+    if (option) {
+      select.value = option.getAttribute('data-pk');
+    }
+  });
 </script>
 
 
