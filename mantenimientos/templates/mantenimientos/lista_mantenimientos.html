@@ -2,6 +2,16 @@
 {% load static %}
 {% block title %} Mantenimientos{% endblock  %}
 {% block content %}
+
+<!-- Estilo columna acciones -->
+<style> 
+  .icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
+
 <div class="container">
 	<h1 class="mb-4">Lista de Mantenimientos</h1>
 	<div class="d-flex mb-4">
@@ -42,14 +52,8 @@
 						</thead>
 						<tbody>
 							{% for mantenimiento in mantenimientos %}
-							<tr data-widget="expandable-table" aria-expanded="false" data-mantenimiento-tipo="{{ mantenimiento.get_tipo_display }}" data-mantenimiento-proveedores="{{ mantenimiento.proveedores.all|join:', ' }}" data-mantenimiento-ot="{{ mantenimiento.ot }}" data-mantenimiento-os="{{ mantenimiento.os }}" data-mantenimiento-fecha="{{ mantenimiento.fecha }}" data-mantenimiento-fecha-preventivo="{{ mantenimiento.fecha_preventivo }}" data-mantenimiento-estado="{{ mantenimiento.estado }}">
-								<td class="d-inline-flex allign-middle" data-mantenimiento-id="{{ mantenimiento.id }}" data-mantenimiento-placa="{{ mantenimiento.placa }}">
-										<button class="btn btn-sm btn-link">
-											<i class="bi bi-info-circle"></i>
-										</button>
-										{{ mantenimiento.placa }}
-									</td>
-									
+							<tr data-widget="expandable-table" aria-expanded="false">
+									<td class="cell align-middle">{{ mantenimiento.placa }}</td>
 									<td class="cell align-middle">{{ mantenimiento.get_tipo_display }}</td>
 									<td class="cell align-middle">{{ mantenimiento.ot }}</td>
 									<td class="cell align-middle"><span class="note">{{ mantenimiento.fecha | date:"d/m/Y" }}</span></td>
@@ -66,7 +70,7 @@
 									</button>
 													
 									</td>
-									<td class="d-inline-flex allign-middle">
+									<td class="icon-container">
 										<a href="{% url 'editar_mantenimiento' mantenimiento.id %}"> 
 											<button type="submit" class="btn btn-sm btn-link" 
 												onclick="event.stopPropagation()">
@@ -86,10 +90,23 @@
 								<tr class="expandable-body d-none">
 									<td colspan="7">
 										<p style="display: none;">
-											{{ mantenimiento.descripcion }}
+                        {{ mantenimiento.descripcion }}
+											<br><br>
+											<strong>Proveedores:</strong>
+											{% if mantenimiento.proveedores.all %}
+												{% for proveedor in mantenimiento.proveedores.all %}
+												<span class="text-muted">
+													<em>{{ proveedor }}{% if not forloop.last %}, {% endif %}</em>
+												</span>
+												{% endfor %}
+											{% else %}
+											<span>No se seleccionaron proveedores.</span>
+											{% endif %}
+											<br>
+											<strong>OS:</strong> {% if mantenimiento.os %}<span>Realizada</span>{% else %}<span>Sin realizar</span>{% endif %}
 										</p>
 									</td>
-								</tr>
+								</tr>								
 							{% endfor %}
 						</tbody>
 					</table>
@@ -102,72 +119,6 @@
 	</div>
 </div>
 </div>
-
-<!-- Modal -->
-<div class="modal" tabindex="-1" id="infoModal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Detalles del mantenimiento</h5>
-      </div>
-      <div class="modal-body">
-        <p id="modalContent">Contenido del modal</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" id="closeButton">Cerrar</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script>
-	document.addEventListener('DOMContentLoaded', function() {
-		const infoButtons = document.querySelectorAll('.bi.bi-info-circle');
-		const modal = document.getElementById('infoModal');
-		const modalContent = document.getElementById('modalContent');
-		
-
-	
-		infoButtons.forEach(function(button) {
-			button.addEventListener('click', function(event) {
-				const mantenimientoRow = event.target.closest('tr');
-				const tipo = mantenimientoRow.dataset.mantenimientoTipo;
-				const proveedores = mantenimientoRow.dataset.mantenimientoProveedores;
-				const ot = mantenimientoRow.dataset.mantenimientoOt;
-				const os = mantenimientoRow.dataset.mantenimientoOs === 'True' ? 'Sí' : 'No';
-				const fecha = mantenimientoRow.dataset.mantenimientoFecha;
-				const fechaPreventivo = mantenimientoRow.dataset.mantenimientoFechaPreventivo || 'N/A';
-				const estado = mantenimientoRow.dataset.mantenimientoEstado === 'True' ? 'Activo' : 'Inactivo';
-	
-				let fechaPreventivoHTML = '';
-				if (tipo === 'Preventivo') {
-					fechaPreventivoHTML = `<p>Fecha Preventivo: ${fechaPreventivo}</p>`;
-				}
-	
-				modalContent.innerHTML = `
-					<p>Tipo: ${tipo}</p>
-					<p>Proveedores: ${proveedores}</p>
-					<p>OT: ${ot}</p>
-					<p>OS: ${os}</p>
-					<p>Fecha: ${fecha}</p>
-					${fechaPreventivoHTML}
-					<p>Estado: ${estado}</p>
-				`;
-	
-				modal.classList.add('show');
-				modal.style.display = 'block';
-			});
-		});
-	
-		const closeButton = document.getElementById('closeButton');
-		closeButton.addEventListener('click', function() {
-			modal.classList.remove('show');
-			modal.style.display = 'none';
-		});
-	});
-	
-</script>
-  
 {% endblock  %}				  
 
 
