@@ -44,8 +44,7 @@ INSTALLED_APPS = [
     'proveedores',
     'repuestos',
     'cronograma',
-    
-
+    'informes',
 ]
 
 MIDDLEWARE = [

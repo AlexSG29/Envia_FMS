@@ -10,5 +10,6 @@ urlpatterns = [
     path('proveedores/', include('proveedores.urls')), #Para los proveedores
     path('repuestos/', include('repuestos.urls')), #Para los repuestos.
     path('vehiculos/', include('vehiculos.urls')), #Para las placas
-    path('cronograma/', include('cronograma.urls')), #Para el cronograma
+    path('cronograma/', include('cronograma.urls')), #Para el cronograma 
+    path('informes/', include('informes.urls')), #Para lo informes
 ]
