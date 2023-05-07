@@ -10,13 +10,17 @@ def eventos_mantenimientos(request):
     mantenimientos = Mantenimiento.objects.filter(estado=True)
     eventos = []
     for mantenimiento in mantenimientos:
-        color = 'green' if mantenimiento.tipo == 'P' else 'red'
-        evento = {
+        eventos.append({
             'title': f"{mantenimiento.tipo} - {mantenimiento.placa}",
             'start': str(mantenimiento.fecha),
-            'color': color,
-        }
-        eventos.append(evento)
+            'color': 'red',  # color para los mantenimientos con fecha
+        })
+        if mantenimiento.fecha_preventivo:
+            eventos.append({
+                'title': f"{mantenimiento.tipo} - {mantenimiento.placa}",
+                'start': str(mantenimiento.fecha_preventivo),
+                'color': 'green',  # color para los mantenimientos con fecha_preventivo
+            })
 
     # Define una función personalizada para serializar objetos Vehiculo
     def serialize_vehiculo(obj):

@@ -1,0 +1,128 @@
+{% extends 'dashboard/layout.html' %}
+{% block title %} Inicio {% endblock  %}
+{% block content %}
+<!-- Estilo columna acciones -->
+<style> 
+  .icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
+
+<div class="col-lg-6">
+	<!-- Calendario -->
+	<div class="card">
+			<div class="card-header border-0">
+				<div class="d-flex justify-content-between">
+					<h3 class="card-title">Calendario de Mantenimientos</h3>
+					<a href="{% url 'cronograma' %}">Ver Completo</a>
+				</div>
+			</div>
+			<div class="card-body">
+				<div id='calendar'></div>
+			</div>
+	</div>
+</div>
+
+<!-- Mantenimientos lista -->
+<div class="col-lg-12">
+	<div class="card">
+		<div class="card-header border-0">
+			<h3 class="card-title">Mantenimientos Activos</h3>
+		</div><!--//card-header-->
+		<div class="card-body table-responsive p-0">
+			{% if mantenimientos %}  
+			<table class="table app-table-hover mb-0 text-center">
+				<thead>
+					<tr>
+						<th class="cell">Placa</th>
+						<th class="cell">Tipo</th>
+						<th class="cell">OT</th>
+						<th class="cell">Fecha</th>
+						<th class="cell">Estado</th>
+						<th class="cell">Repuestos</th> 
+						<th class="cell">Acciones</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for mantenimiento in mantenimientos %}
+					<tr data-widget="expandable-table" aria-expanded="false">
+							<td class="cell align-middle">{{ mantenimiento.placa }}</td>
+							<td class="cell align-middle">{{ mantenimiento.get_tipo_display }}</td>
+							<td class="cell align-middle">{{ mantenimiento.ot }}</td>
+							<td class="cell align-middle"><span class="note">{{ mantenimiento.fecha | date:"d/m/Y" }}</span></td>
+							<td class="cell align-middle">{% if mantenimiento.estado %}<span class="badge bg-success">Activo</span>
+											 {% else %}<span class="badge bg-warning">Inactivo</span>
+											 {% endif %}
+							</td>
+							<td class="cell align-middle">
+								<a class="text-muted" href="{% url 'ver_repuestos' mantenimiento.id %}">
+									<button type="submit" class="btn btn-sm btn-link" 
+											onclick="event.stopPropagation();">
+									<i class="bi bi-tools" style="font-size: 1.2em;"></i>
+								</a>
+							</button>
+											
+							</td>
+							<td class="icon-container">
+								<a href="{% url 'editar_mantenimiento' mantenimiento.id %}"> 
+									<button type="submit" class="btn btn-sm btn-link" 
+										onclick="event.stopPropagation()">
+										<i class="bi bi-pencil-square" style="font-size: 1.2em;"></i><!-- Icono de editar -->
+										</button>
+								</a>
+								
+								<form method="post" action="{% url 'eliminar_mantenimiento' mantenimiento.id %}">
+									{% csrf_token %}
+									<button type="submit" class="btn btn-sm btn-link" 
+										onclick="event.stopPropagation(); return confirm('¿Estás seguro de que deseas eliminar este mantenimiento?')">
+										<i class="bi bi-trash" style="font-size: 1.2em;"></i> <!-- Icono de eliminar -->
+									</button>
+								</form>
+							</td>
+						</tr>
+						<tr class="expandable-body d-none">
+							<td colspan="7">
+								<p style="display: none;">
+				{{ mantenimiento.descripcion }}
+									<br><br>
+									<strong>Proveedores:</strong>
+									{% if mantenimiento.proveedores.all %}
+										{% for proveedor in mantenimiento.proveedores.all %}
+										<span class="text-muted">
+											<em>{{ proveedor }}{% if not forloop.last %}, {% endif %}</em>
+										</span>
+										{% endfor %}
+									{% else %}
+									<span>No se seleccionaron proveedores.</span>
+									{% endif %}
+									<br>
+									<strong>OS:</strong> {% if mantenimiento.os %}<span>Realizada</span>{% else %}<span>Sin realizar</span>{% endif %}
+								</p>
+							</td>
+						</tr>								
+					{% endfor %}
+				</tbody>
+			</table><!--//table-->
+			{% else %}
+			<p>No hay mantenimientos registrados.</p>
+			{% endif %}
+		</div><!--//card-body table-responsive-->
+	</div><!--//card-->
+</div>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      events: '/cronograma/eventos_mantenimientos/',
+    });
+    calendar.render();
+  });
+</script>
+  
+{% endblock  %}
+

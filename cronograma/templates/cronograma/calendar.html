@@ -4,16 +4,21 @@
 {% block title %} Cronograma {% endblock title %}
 
 {% block content %}
-<div id='calendar'></div>
-  
-
+<div class="container">
+  <h1 class="mb-4">Fechas Fantenimientos</h1>
+  <div id="info">
+    <p><i class="bi bi-circle-fill" style="color:green;"></i> Planeaciones de los Preventivos</p>
+    <p><i class="bi bi-circle-fill" style="color:red;"></i> Fecha de inicio del Mantenimiento</p>
+  </div>
+  <div id='calendar'></div>
+</div>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
       initialView: 'dayGridMonth',
       events: '/cronograma/eventos_mantenimientos/',
-      });
+    });
     calendar.render();
   });
 </script>
