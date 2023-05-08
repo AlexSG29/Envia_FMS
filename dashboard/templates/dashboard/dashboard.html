@@ -51,7 +51,10 @@
 <div class="col-lg-12">
 	<div class="card">
 		<div class="card-header border-0">
-			<h3 class="card-title">Mantenimientos Activos</h3>
+			<div class="d-flex justify-content-between">
+				<h3 class="card-title">Mantenimientos Activos</h3>
+				<a href="{% url 'lista_mantenimientos' %}">Ver lista completa</a>
+			</div>	
 		</div><!--//card-header-->
 		<div class="card-body table-responsive p-0">
 			{% if mantenimientos %}  

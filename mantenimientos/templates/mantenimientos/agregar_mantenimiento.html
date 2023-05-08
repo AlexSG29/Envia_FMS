@@ -27,7 +27,8 @@
     <div class="form-group row mb-3">
       <label for="{{ form.placa.id_for_label }}" class="col-sm-2 col-form-label">* Placa:</label>
       <div class="col-sm-12">
-          <input class="form-control" list="placas" id="placas-search" placeholder="Buscar por placa...">
+          <input class="form-control" list="placas" id="placas-search" placeholder="Buscar por placa..."
+                oninput="this.value = this.value.toUpperCase()">
           <datalist id="placas">
             {% for placa in form.placa.field.queryset %}
             <option value="{{ placa.placa }}" data-pk="{{ placa.pk }}">{{ placa.placa }}</option>
