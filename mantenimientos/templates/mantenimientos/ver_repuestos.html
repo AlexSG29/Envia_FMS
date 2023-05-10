@@ -1,11 +1,7 @@
 {% extends 'dashboard/layout.html' %}
 
-{% block head %}
-  {{ block.super }}
-{% endblock %}
-
 {% block title %}
-  <title>Repuestos del Mantenimiento</title>
+Repuestos del Mantenimiento
 {% endblock %}
 
 {% block content %}
@@ -18,6 +14,7 @@
               <th>Repuesto</th>
               <th>Cantidad</th>
               <th>Descripción</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -26,6 +23,16 @@
               <td>{{ repuesto_mantenimiento.repuesto }}</td>
               <td>{{ repuesto_mantenimiento.cantidad }}</td>
               <td>{{ repuesto_mantenimiento.descripcion }}</td>
+              <td>
+                <form method="POST" action="{% url 'eliminar_repuesto' repuesto_mantenimiento_id=repuesto_mantenimiento.id %}">
+                  {% csrf_token %}
+                  <input type="hidden" name="mantenimiento_id" value="{{ mantenimiento.id }}">
+                  <button type="submit" class="btn btn-sm btn-link"  
+                          onclick="return confirm('¿Estás seguro de que deseas eliminar este repuesto?')">
+                    <i class="bi bi-trash" style="font-size: 1.2em;"></i> <!-- Icono de eliminar -->
+                  </button>
+              </form>
+              </td>
             </tr>
             {% endfor %}
           </tbody>

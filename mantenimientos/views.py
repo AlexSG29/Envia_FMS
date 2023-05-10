@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Mantenimiento
+from .models import Mantenimiento, RepuestoMantenimiento
 from proveedores.models import Proveedor
 from .forms import MantenimientoForm, RepuestoMantenimientoForm
 from django.contrib.auth.decorators import login_required
@@ -69,20 +69,6 @@ def editar_mantenimiento(request, pk):
                   {'form': form, 
                    'mantenimiento': mantenimiento,
                    'proveedores': proveedores})
-""" def editar_mantenimiento(request, pk):
-    mantenimiento = get_object_or_404(Mantenimiento, pk=pk)
-    proveedores = Proveedor.objects.all()
-    if request.method == 'POST':
-        form = MantenimientoForm(request.POST, instance=mantenimiento)
-        if form.is_valid():
-            form.save()
-            return redirect('lista_mantenimientos')
-    else:
-        form = MantenimientoForm(instance=mantenimiento)
-    return render(request, 'mantenimientos/editar_mantenimiento.html', 
-                  {'form': form, 
-                   'mantenimiento': mantenimiento,
-                   'proveedores': proveedores}) """
 
 
 #Eliminar un mantenimiento
@@ -144,7 +130,21 @@ def agregar_repuestos(request, mantenimiento_id):
     }
     return render(request, 'mantenimientos/agregar_repuestos.html', context)
 
-
+#eliminar repuesto de un mantenimiento
+def eliminar_repuesto_mantenimiento (request, repuesto_mantenimiento_id):
+    # Obtener el objeto RepuestoMantenimiento correspondiente
+    repuesto_mantenimiento = get_object_or_404(RepuestoMantenimiento, id=repuesto_mantenimiento_id)
+    # Obtener el ID del mantenimiento correspondiente a través del formulario
+    mantenimiento_id = request.POST.get('mantenimiento_id')
+    if mantenimiento_id:
+        mantenimiento = get_object_or_404(Mantenimiento, pk=mantenimiento_id)
+    else:
+        mantenimiento = repuesto_mantenimiento.mantenimiento
+    # Eliminar el objeto RepuestoMantenimiento
+    repuesto_mantenimiento.delete()
+    
+    # Redirigir al usuario a la vista de detalles del mantenimiento
+    return redirect('ver_repuestos', mantenimiento_id=mantenimiento.id)
 
 
 

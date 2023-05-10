@@ -8,4 +8,5 @@ urlpatterns = [
     path('eliminar_mantenimiento/<int:pk>/', views.eliminar_mantenimiento, name='eliminar_mantenimiento'), #eliminar mantenimiento
     path('ver_repuestos/<int:mantenimiento_id>/', views.ver_repuestos, name='ver_repuestos'), #ver los repuestos de un mantenimiento
     path('agregar_repuestos/<int:mantenimiento_id>/', views.agregar_repuestos, name='agregar_repuestos'), #agregar repuestos a cada mtto
+    path('eliminar_repuesto/<int:repuesto_mantenimiento_id>/', views.eliminar_repuesto_mantenimiento, name='eliminar_repuesto'), #eliminar un repuesto de un mantenimiento
 ]
