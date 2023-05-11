@@ -6,6 +6,8 @@ from django.http import HttpResponse
 from django.views import View
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
+from reportlab.platypus import Table, TableStyle
+from reportlab.lib import colors
 import io
 import datetime
 
@@ -36,6 +38,7 @@ class InformeMantenimientosActivos(View):
         tamaño_fecha = 9
         margen_izquierdo = 50
         margen_superior = 750
+        dist_titulo_fecha = 35 #interlineado encabezado
         interlineado = 20
 
         # Encabezado del informe
@@ -49,10 +52,10 @@ class InformeMantenimientosActivos(View):
         titulo = "Informe de Mantenimientos Activos"
         titulo_width = p.stringWidth(titulo, estilo_titulo, tamaño_titulo)
         titulo_x = (p._pagesize[0] - titulo_width) / 2
-        p.drawString(titulo_x, margen_superior - interlineado, titulo)
+        p.drawString(titulo_x, margen_superior - dist_titulo_fecha, titulo)
 
         # Agregar encabezados de tabla
-        y = margen_superior - 2*interlineado
+        y = margen_superior - 2*dist_titulo_fecha
         encabezados = ['Placa', 'Fecha', 'Tipo']
         for i, encabezado in enumerate(encabezados):
             p.drawString(margen_izquierdo + i*150, y, encabezado)
