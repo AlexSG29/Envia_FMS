@@ -14,7 +14,7 @@ def Informes(request):
     return render(request, 'informes/informes.html')
 
 
-
+#Descargar Informe mantenimmientos Activos
 class InformeMantenimientosActivos(View):
     def get(self, request):
         # Obtener todos los mantenimientos activos
