@@ -1,0 +1,32 @@
+{% extends 'dashboard/layout.html' %}
+
+{% block title %}Informes{% endblock title %}
+
+{% block content %}
+  <div class="container">
+    <h1 class="mb-4">Descargar Informes</h1>
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5 class="card-title mb-3">Informe de Mantenimientos Activos</h5>
+        <p class="card-text text-muted">Descarga un informe detallado de todos los mantenimientos, 
+                            que incluye el cronograma de actividades, así como los detalles 
+                            específicos de cada mantenimiento, como los repuestos utilizados, 
+                            los proveedores requeridos y otros aspectos relevantes
+        </p>
+        <a href="#" class="btn btn-primary">Descargar Informe</a>
+      </div>
+    </div>
+    
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5 class="card-title mb-3">Informe de Mantenimientos Inactivos</h5>
+        <p class="card-text text-muted">Descarga un informe detallado de todos los mantenimientos cerrados o inactivos, 
+                                        solo se redactarán los repuestos utilizados, los proveedores requeridos y otros 
+                                        aspectos relevantes
+        </p>
+        <a href="#" class="btn btn-primary">Descargar Informe</a>
+      </div>
+    </div>
+    <!-- Agrega más bloques de "div.card" para los otros informes -->
+  </div>
+{% endblock %}

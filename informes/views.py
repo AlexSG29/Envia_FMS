@@ -1,3 +1,5 @@
 from django.shortcuts import render
 
-# Create your views here.
+#Informes dashboard
+def Informes(request):
+    return render(request, 'informes/informes.html')
