@@ -1,12 +1,13 @@
-from mantenimientos.models import Mantenimiento
 from django.shortcuts import render
+from mantenimientos.models import Mantenimiento
+
+#Para generar iformes
 from django.http import HttpResponse
 from django.views import View
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 import io
-
-#from django.template.loader import get_template
+import datetime
 
 
 #Informes dashboard layout
@@ -22,31 +23,47 @@ class InformeMantenimientosActivos(View):
 
         # Crear el objeto PDF
         response = HttpResponse(content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="informe_mttos_activos.pdf"'
+        response['Content-Disposition'] = 'inline; filename="informe_mttos_activos.pdf"'
 
         # Generar el contenido del informe PDF
         buffer = io.BytesIO()
         p = canvas.Canvas(buffer, pagesize=letter)
 
-        # Estilos del informe
+       # Estilos del informe
         estilo_titulo = "Helvetica-Bold"
-        estilo_texto = "Helvetica"
+        estilo_fecha = "Helvetica"
         tamaño_titulo = 16
-        tamaño_texto = 12
+        tamaño_fecha = 9
         margen_izquierdo = 50
         margen_superior = 750
         interlineado = 20
 
         # Encabezado del informe
+        p.setFont(estilo_fecha, tamaño_fecha)
+        fecha = f"Generado el: {datetime.datetime.now().strftime('%d de %B de %Y, %H:%M')}"
+        fecha_width = p.stringWidth(fecha, estilo_fecha, tamaño_fecha)
+        fecha_x = p._pagesize[0] - margen_izquierdo - fecha_width
+        p.drawString(fecha_x, margen_superior, fecha)
+
         p.setFont(estilo_titulo, tamaño_titulo)
-        p.drawString(margen_izquierdo, margen_superior, "Informe de Mantenimientos Activos")
-        p.setFont(estilo_texto, tamaño_texto)
+        titulo = "Informe de Mantenimientos Activos"
+        titulo_width = p.stringWidth(titulo, estilo_titulo, tamaño_titulo)
+        titulo_x = (p._pagesize[0] - titulo_width) / 2
+        p.drawString(titulo_x, margen_superior - interlineado, titulo)
+
+        # Agregar encabezados de tabla
+        y = margen_superior - 2*interlineado
+        encabezados = ['Placa', 'Fecha', 'Tipo']
+        for i, encabezado in enumerate(encabezados):
+            p.drawString(margen_izquierdo + i*150, y, encabezado)
+        y -= interlineado
 
         # Agregar la lista de mantenimientos activos
-        y = margen_superior - interlineado
         for mantenimiento in mantenimientos_activos:
-            texto = f"Placa: {mantenimiento.placa}, Fecha: {mantenimiento.fecha}, Tipo: {mantenimiento.get_tipo_display()}"
-            p.drawString(margen_izquierdo, y, texto)
+            p.line(margen_izquierdo, y + 10, margen_izquierdo + 400, y + 10)  # línea divisoria
+            p.drawString(margen_izquierdo, y, str(mantenimiento.placa))
+            p.drawString(margen_izquierdo + 150, y, str(mantenimiento.fecha))
+            p.drawString(margen_izquierdo + 300, y, mantenimiento.get_tipo_display())
             y -= interlineado
 
         p.showPage()
