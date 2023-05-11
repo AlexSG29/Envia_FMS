@@ -5,6 +5,8 @@
 {% block content %}
   <div class="container">
     <h1 class="mb-4">Descargar Informes</h1>
+
+		<!-- Informes Activos-->
     <div class="card mb-3">
       <div class="card-body">
         <h5 class="card-title mb-3">Informe de Mantenimientos Activos</h5>
@@ -13,10 +15,20 @@
                             específicos de cada mantenimiento, como los repuestos utilizados, 
                             los proveedores requeridos y otros aspectos relevantes
         </p>
-        <a href="#" class="btn btn-primary">Descargar Informe</a>
+				<!-- Link para descargar Informe -->
+        <ul class="nav nav-pills nav-sidebar flex-column">
+					<a href="#" class="nav-link">
+						<i class="bi bi-file-earmark-arrow-down-fill align-middle me-2" style="font-size: 1.3em;"></i>
+						<p>
+							Descargar Informe
+						</p>
+					</a>        
+        </ul>   
       </div>
     </div>
     
+
+		<!-- Informes Inactivos-->
     <div class="card mb-3">
       <div class="card-body">
         <h5 class="card-title mb-3">Informe de Mantenimientos Inactivos</h5>
@@ -24,9 +36,18 @@
                                         solo se redactarán los repuestos utilizados, los proveedores requeridos y otros 
                                         aspectos relevantes
         </p>
-        <a href="#" class="btn btn-primary">Descargar Informe</a>
+        <!-- Link para descargar Informe -->
+        <ul class="nav nav-pills nav-sidebar flex-column">
+					<a href="#" class="nav-link">
+						<i class="bi bi-file-earmark-arrow-down-fill align-middle me-2" style="font-size: 1.3em;"></i>
+						<p>
+							Descargar Informe
+						</p>
+					</a>        
+        </ul> 
       </div>
     </div>
+		
     <!-- Agrega más bloques de "div.card" para los otros informes -->
   </div>
 {% endblock %}
