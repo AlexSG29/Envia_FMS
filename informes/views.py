@@ -1,5 +1,7 @@
 from django.shortcuts import render
-from mantenimientos.models import Mantenimiento
+from mantenimientos.models import Mantenimiento, RepuestoMantenimiento
+from datetime import datetime
+import locale
 
 #Informes dashboard layout
 def Informes(request):
@@ -9,18 +11,14 @@ def Informes(request):
 # informes/views.py
 from django.views import View
 from django.http import HttpResponse
-from django.http import FileResponse
 from reportlab.pdfgen import canvas
-from io import BytesIO
 from reportlab.lib.units import inch
-from reportlab.platypus import Frame, SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.lib.pagesizes import letter, landscape
+from reportlab.lib.styles import ParagraphStyle
+from reportlab.lib.pagesizes import letter
 from reportlab.lib import colors
-from datetime import datetime
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
 
-import locale
-locale.setlocale(locale.LC_TIME, 'es_CO.UTF-8')
+
 
 #Descargar Informe mantenimmientos Activos
 class InformeMantenimientosActivosView(View):
@@ -48,9 +46,19 @@ class InformeMantenimientosActivosView(View):
 
         # Estilos para el informe
         styles = {
-            'Title': ParagraphStyle(name='Title', fontSize=16, alignment=1, fontName='Courier-Bold'),
+            'Title': ParagraphStyle(name='Title', fontSize=17, alignment=1, 
+                                    fontName='Courier-Bold',
+                                    ),
             'Subtitle': ParagraphStyle(name='Subtitle', fontSize=12, alignment=1),
-            'Timestamp': ParagraphStyle(name='Timestamp', fontSize=10, textColor=colors.gray),
+            'Timestamp': ParagraphStyle(name='Timestamp', fontSize=10, textColor=colors.gray, 
+                                        fontName='Courier',
+                                        ),
+            'BlockTitle': ParagraphStyle(name='BlockTitle', fontSize=14, 
+                                           fontName='Courier-Bold',
+                                           ),
+            'BlockContent': ParagraphStyle(name='BlockContent', fontSize=14, 
+                                           fontName='Courier',
+                                           ),
         }
        
         # Título y fecha
@@ -59,7 +67,7 @@ class InformeMantenimientosActivosView(View):
         timestamp = Paragraph(f"Generado el {fecha_actual}", styles['Timestamp'])
 
         # Creamos la tabla con los datos
-        data = [['Placa', 'Tipo', 'OT', 'Fecha']]
+        data = [['Placa', 'Tipo', 'OT', 'Fecha de inicio']]
         for mantenimiento in mantenimientos:
             row = [
                 str(mantenimiento.placa),
@@ -71,9 +79,6 @@ class InformeMantenimientosActivosView(View):
 
         table = Table(data)
         table.setStyle(TableStyle([
-            #('BACKGROUND', (0, 0), (-1, 0), colors.lightblue), # Establece el color de fondo gris para la primera fila de la tabla.
-            #('BACKGROUND', (0, 1), (-1, -1), colors.beige),#Establece el color de fondo beige para las filas restantes de la tabla.
-            #('TEXTCOLOR', (0, 0), (-1, 0), colors.black),#Esto afecta a la primera fila de la tabla.
             ('BOTTOMPADDING', (0, 0), (-1, 0), 12),#Agrega un espacio de relleno en la parte inferior de la primera fila de la tabla.
             ('ALIGN', (0, 0), (0, -1), 'LEFT'),#Alinear las placas a la izquierda
             ('ALIGN', (1, 0), (1, -1), 'CENTER'), #Alinear el tipo en el centro
@@ -81,10 +86,9 @@ class InformeMantenimientosActivosView(View):
             ('ALIGN', (3, 0), (3, -1), 'RIGHT'), #Alinear la fecha en la derecha
             ('FONTNAME', (0, 0), (-1, 0), 'Courier-Bold'), #Establece la fuente  para la primera fila de la tabla.
             ('FONTNAME', (0, 1), (-1, -1), 'Courier'), #Establece la fuente  para el resto de la tabla.
-            ('FONTSIZE', (0, 0), (-1, 0), 14), #Establece el tamaño de fuente para la primera fila de la tabla.
-            ('FONTSIZE', (0, 1), (-1, -1), 10),#Establece el tamaño de fuente para el resto de la tabla.
-            ('LINEBELOW', (0, 0), (-1, 0), 1, colors.HexColor("#151414")),
-            #('GRID', (0, 0), (-1, -1), 1, colors.HexColor("#2B2B2B"))#Agrega una cuadrícula con un ancho de línea y un color negro a todas las celdas de la tabla.
+            ('FONTSIZE', (0, 0), (-1, 0), 15), #Establece el tamaño de fuente para la primera fila de la tabla.
+            ('FONTSIZE', (0, 1), (-1, -1), 13),#Establece el tamaño de fuente para el resto de la tabla.
+            ('LINEBELOW', (0, 0), (-1, 0), 1, colors.HexColor("#151414")),#Dibuja una linea debajo de los encabezados de la tabla
         ]))
 
         # Ajustar el ancho de las columnas de la tabla
@@ -93,8 +97,55 @@ class InformeMantenimientosActivosView(View):
         table._argW[2] = 1.2* inch
         table._argW[3] = 3 * inch
 
+        # Crear los bloques de información para cada mantenimiento
+        blocks = []
+        for mantenimiento in mantenimientos:
+            # Información del mantenimiento
+            placa = Paragraph(f"<b>{str(mantenimiento.placa)}</b> - {mantenimiento.get_tipo_display().upper()} que inició el {mantenimiento.fecha.strftime('%d de %B del %Y')}", 
+                              styles['BlockContent']
+                              )
+            descripcion = Paragraph(f" <font color='darkgrey'>Descripcion:</font> {mantenimiento.descripcion}", 
+                                    styles['BlockContent']
+                                    )
+            proveedores = Paragraph(f"<b>Proveedores:</b> {', '.join([str(proveedor) for proveedor in mantenimiento.proveedores.all()])}", 
+                                    styles['BlockContent']
+                                    )
+
+            # Obtener los repuestos asociados al mantenimiento
+            repuestos = RepuestoMantenimiento.objects.filter(mantenimiento=mantenimiento)
+            repuestos_info = []
+            for repuesto_mantenimiento in repuestos:
+                repuesto_info = f" ({repuesto_mantenimiento.cantidad}) {repuesto_mantenimiento.repuesto} // <i>{repuesto_mantenimiento.descripcion}</i>"
+                repuestos_info.append(Paragraph(repuesto_info, styles['BlockContent']))
+
+
+            # Crear el bloque de información
+            block = [
+                Spacer(1, 0.2 * inch),
+                placa,
+                Spacer(1, 0.2 * inch),
+                descripcion,
+                Spacer(1, 0.1 * inch),
+                proveedores,
+                Spacer(1, 0.2 * inch),
+            ]
+            block.extend(repuestos_info)  # Agregar la información de los repuestos al bloque
+            blocks.append(block)
+
+        # Añadir una línea después de cada bloque de información
+        line_style = ParagraphStyle(name='Line', spaceAfter=0.1 * inch, borderWidth=0.2, borderColor='grey')
+        for i in range(len(blocks)):
+            block = blocks[i]
+            block.append(Spacer(1, 0.1 * inch))
+            if i < len(blocks) - 1:
+                block.append(Paragraph("<u> </u>", line_style))
+
+
+
         # Añadimos todo al PDF
-        elements = [timestamp, Spacer(1, 0.3 * inch), titulo, Spacer(1, 0.7 * inch), table]
+        elements = [timestamp, Spacer(1, 0.3 * inch), titulo, Spacer(1, 0.7 * inch), table, Spacer(1, 0.7 * inch)]
+        for block in blocks:
+            elements.extend(block)
         doc.build(elements)
 
         return buffer
