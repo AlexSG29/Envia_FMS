@@ -20,9 +20,9 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, 
 
 
 
-#Descargar Informe mantenimmientos Activos
-class InformeMantenimientosActivosView(View):
-    def get(self, request):
+#Vista que representa los informes de Mantenimientos de manera general
+class BaseInformeView(View):
+    def generar_informe(self, mantenimientos, filename, title):
         # Establecer la configuración regional
         locale.setlocale(locale.LC_TIME, 'es_CO.UTF-8')
         
@@ -35,14 +35,11 @@ class InformeMantenimientosActivosView(View):
 
         # Creamos el PDF en memoria
         buffer = HttpResponse(content_type='application/pdf')
-        buffer['Content-Disposition'] = 'inline; filename="mantenimientos_activos.pdf"'
+        buffer['Content-Disposition'] = f'inline; filename="{filename}"'
         doc = SimpleDocTemplate(buffer, pagesize=pagesize, 
                                 leftMargin=left_margin, rightMargin=right_margin,
                                 topMargin=top_margin, bottomMargin=bottom_margin
                                 )
-
-        # Obtenemos los mantenimientos activos
-        mantenimientos = Mantenimiento.objects.filter(estado=True)
 
         # Estilos para el informe
         styles = {
@@ -62,7 +59,7 @@ class InformeMantenimientosActivosView(View):
         }
        
         # Título y fecha
-        titulo = Paragraph("Informe de Mantenimientos Activos", styles['Title'])
+        titulo = Paragraph(f"Informe de Mantenimientos {title}", styles['Title'])
         fecha_actual = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         timestamp = Paragraph(f"Generado el {fecha_actual}", styles['Timestamp'])
 
@@ -95,7 +92,7 @@ class InformeMantenimientosActivosView(View):
         table._argW[1] = 1.2 * inch
         table._argW[0] = 1.2 * inch
         table._argW[2] = 1.2* inch
-        table._argW[3] = 3 * inch
+        table._argW[3] = 2.75 * inch
 
         # Crear los bloques de información para cada mantenimiento
         blocks = []
@@ -104,10 +101,10 @@ class InformeMantenimientosActivosView(View):
             placa = Paragraph(f"<b>{str(mantenimiento.placa)}</b> - {mantenimiento.get_tipo_display().upper()} que inició el {mantenimiento.fecha.strftime('%d de %B del %Y')}", 
                               styles['BlockContent']
                               )
-            descripcion = Paragraph(f" <font color='darkgrey'>Descripcion:</font> {mantenimiento.descripcion}", 
+            descripcion = Paragraph(f" <font color='#4F5050'><b>Descripcion:</b></font> {mantenimiento.descripcion}", 
                                     styles['BlockContent']
                                     )
-            proveedores = Paragraph(f"<b>Proveedores:</b> {', '.join([str(proveedor) for proveedor in mantenimiento.proveedores.all()])}", 
+            proveedores = Paragraph(f"<font color='#4F5050'><b>Proveedores:</b></font> {', '.join([str(proveedor) for proveedor in mantenimiento.proveedores.all()])}", 
                                     styles['BlockContent']
                                     )
 
@@ -149,4 +146,29 @@ class InformeMantenimientosActivosView(View):
         doc.build(elements)
 
         return buffer
+    
+class InformeMantenimientosActivosView(BaseInformeView):
+    def get(self, request):
+        title = "Activos"
 
+        # Obtener los mantenimientos activos
+        mantenimientos = Mantenimiento.objects.filter(estado=True)
+
+        # Generar el informe
+        filename = "mantenimientos_activos.pdf"
+        buffer = self.generar_informe(mantenimientos, filename, title)
+
+        return buffer
+
+class InformeMantenimientosNoActivosView(BaseInformeView):
+    def get(self, request):
+        title = "Inactivos"
+
+        # Obtener los mantenimientos no activos
+        mantenimientos = Mantenimiento.objects.filter(estado=False)
+
+        # Generar el informe
+        filename = "mantenimientos_no_activos.pdf"
+        buffer = self.generar_informe(mantenimientos, filename, title)
+
+        return buffer
