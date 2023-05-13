@@ -131,6 +131,7 @@ def agregar_repuestos(request, mantenimiento_id):
     return render(request, 'mantenimientos/agregar_repuestos.html', context)
 
 #eliminar repuesto de un mantenimiento
+@login_required
 def eliminar_repuesto_mantenimiento (request, repuesto_mantenimiento_id):
     # Obtener el objeto RepuestoMantenimiento correspondiente
     repuesto_mantenimiento = get_object_or_404(RepuestoMantenimiento, id=repuesto_mantenimiento_id)

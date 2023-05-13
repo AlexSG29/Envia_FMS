@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 #from django.urls import reverse
 #from django.db.models import Q
 
+@login_required
 def eventos_mantenimientos(request):
     mantenimientos = Mantenimiento.objects.filter(estado=True)
     eventos = []
