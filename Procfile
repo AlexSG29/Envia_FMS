@@ -1,1 +1,1 @@
-web: gunicorn envia_fms.wsgi --log-file - 
+web: python manage.py migrate && gunicorn envia_fms.wsgi
