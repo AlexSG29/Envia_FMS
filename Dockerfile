@@ -22,4 +22,4 @@ COPY . .
 # Resto de las instrucciones...
 
 # Ejecuta el comando para iniciar tu aplicación (sustituye el comando según tus necesidades)
-CMD [ "python", "manage.py", "runserver", "0.0.0.0:$PORT" ]
+CMD [ "python", "manage.py", "runserver", "0.0.0.0:7333" ]
