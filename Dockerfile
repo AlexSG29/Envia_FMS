@@ -12,11 +12,10 @@ RUN apt-get update && apt-get install -y \
 # Copia el archivo requirements.txt al contenedor
 COPY requirements.txt .
 
+# Instala las dependencias del proyecto
+RUN pip install --no-cache-dir -r requirements.txt
 # Copia todo el contenido del directorio actual al contenedor
 COPY . .
-
-# Instala las dependencias del proyecto
-RUN pip install --no-cache-dir -r envia_fms/requirements.txt
 
 # Resto de las instrucciones...
 
