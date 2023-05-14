@@ -1,1 +1,0 @@
-web: gunicorn 'envia_fms.wsgi'

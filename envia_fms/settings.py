@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+#from dotenv import load_dotenv
+import os
+
+#load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,12 +25,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-em7wg99+zcl*(_o2#&az#9)m(xnsx@o89w2+bsf(o8=y@5s_$z'
-
+#SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+#DEBUG = os.environ.get('DEBUG')=='True'
 
-ALLOWED_HOSTS = [""]
-
+ALLOWED_HOSTS = []
+CSRF_THRUSTED_ORIGINS = []
 
 # Application definition
 
@@ -45,6 +49,7 @@ INSTALLED_APPS = [
     'repuestos',
     'cronograma',
     'informes',
+    'whitenoise.runserver_nostatic',
 ]
 
 MIDDLEWARE = [
@@ -84,15 +89,12 @@ WSGI_APPLICATION = 'envia_fms.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+import dj_database_url
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'railway',
-        'USER': 'root',
-        'PASSWORD': 'i0gPekyDpyTMbvxIir7x',
-        'HOST': 'containers-us-west-144.railway.app',
-        'PORT': '7333',
-    }
+    'default': dj_database_url.config(
+        default='sqlite:///' + os.path.join('db.sqlite3')
+    )
 }
 
 
@@ -130,10 +132,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-#import os
 
 STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 """ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT =os.path.join(BASE_DIR, 'staticfiles') """
