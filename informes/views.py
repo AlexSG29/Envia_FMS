@@ -2,7 +2,6 @@ from django.shortcuts import render
 from mantenimientos.models import Mantenimiento, RepuestoMantenimiento
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
-import locale
 
 #Informes dashboard layout
 @login_required
@@ -19,8 +18,6 @@ from reportlab.lib.pagesizes import letter
 from reportlab.lib import colors
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
 
-# Establecer la configuración regional
-locale.setlocale(locale.LC_TIME, 'es_CO.UTF-8')
 
 #Vista que representa los informes de Mantenimientos de manera general
 @login_required
@@ -275,8 +272,6 @@ def InformeMantenimientosInactivosView(request):
             elements.extend(block)
     doc.build(elements)
     def get(self, request):
-        # Establecer la configuración regional
-        locale.setlocale(locale.LC_TIME, 'es_CO.UTF-8')
 
         # Obtener los mantenimientos activos
         mantenimientos = Mantenimiento.objects.filter(estado=True)
