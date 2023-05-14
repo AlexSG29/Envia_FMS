@@ -28,9 +28,9 @@ SECRET_KEY = 'django-insecure-em7wg99+zcl*(_o2#&az#9)m(xnsx@o89w2+bsf(o8=y@5s_$z
 #SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = os.environ.get('DEBUG')=='True'
-
+DEBUG = True
 ALLOWED_HOSTS = []
-CSRF_THRUSTED_ORIGINS = []
+#CSRF_THRUSTED_ORIGINS = []
 
 # Application definition
 
@@ -49,13 +49,12 @@ INSTALLED_APPS = [
     'repuestos',
     'cronograma',
     'informes',
-    'whitenoise.runserver_nostatic',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     #whitenoise
-    "whitenoise.middleware.WhiteNoiseMiddleware",
+    #"whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -134,9 +133,7 @@ USE_TZ = True
 
 
 STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+#STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 """ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT =os.path.join(BASE_DIR, 'staticfiles') """
 
