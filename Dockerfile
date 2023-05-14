@@ -20,4 +20,4 @@ COPY . .
 # Resto de las instrucciones...
 
 # Ejecuta el comando para iniciar tu aplicación (sustituye el comando según tus necesidades)
-CMD [ "python", "envia_fms/manage.py", "runserver", "0.0.0.0:8000" ]
+CMD [ "python", "manage.py", "runserver", "0.0.0.0:8000" ]
