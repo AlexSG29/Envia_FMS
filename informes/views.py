@@ -149,7 +149,7 @@ class BaseInformeView(View):
         doc.build(elements)
 
         return buffer
-@login_required
+
 class InformeMantenimientosActivosView(BaseInformeView):
     def get(self, request):
         title = "Activos"
@@ -162,7 +162,7 @@ class InformeMantenimientosActivosView(BaseInformeView):
         buffer = self.generar_informe(mantenimientos, filename, title)
 
         return buffer
-@login_required
+    
 class InformeMantenimientosNoActivosView(BaseInformeView):
     def get(self, request):
         title = "Inactivos"
