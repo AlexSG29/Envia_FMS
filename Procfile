@@ -1,1 +1,1 @@
-web: python manage.py migrate && gunicorn envia_fms.wsgi
+web: gunicorn 'envia_fms.wsgi'
