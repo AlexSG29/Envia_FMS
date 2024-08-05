@@ -12,7 +12,9 @@
     </div>
     <div class="card-body">
       <p class="login-box-msg">Inicia sesión en este dispositivo</p>
-
+      <p class="text-center text-muted"><small>Como es una demo, puedes ingresar con las siguientes credenciales: usuario:
+          <strong>demo</strong>, contraseña: <strong>Demo1234</strong></small>
+      </p>
       <form method="post" action="{% url 'login' %}">
         {% csrf_token %}
         <div class="input-group mb-3">
@@ -45,15 +47,6 @@
           </div>
         </div>
       </form>
-      
-      <div class="social-auth-links text-center mt-2 mb-3">
-        <a href="#" class="btn btn-block btn-primary">
-          <i class="fab fa-facebook mr-2"></i> Inicia sesión con Facebook
-        </a>
-        <a href="#" class="btn btn-block btn-danger">
-          <i class="fab fa-google-plus mr-2"></i> Inicia sesión con Google+
-        </a>
-      </div>
       <p class="mb-1">
         <a href="#">Olvidé mi contraseña</a>
       </p>
